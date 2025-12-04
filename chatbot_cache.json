@@ -1,0 +1,57 @@
+{
+  "b37d149d7ac1": {
+    "answer": "Halo!\n",
+    "timestamp": 1764675097.4953501,
+    "model": "gemini-2.0-flash-lite"
+  },
+  "57f842286171": {
+    "answer": "Halo!\n",
+    "timestamp": 1764679416.4675562,
+    "model": "gemini-2.0-flash-lite"
+  },
+  "0abf56db843f": {
+    "answer": "*   **Jangan klik tautan mencurigakan:** Periksa URL sebelum mengklik dan hindari tautan dari sumber yang tidak dikenal.\n*   **Verifikasi pengirim:** Pastikan alamat email dan nomor telepon pengirim valid.\n*   **Waspada terhadap permintaan mendesak:** Phishing seringkali menggunakan taktik tekanan untuk memaksa Anda bertindak cepat.\n*   **Gunakan otentikasi dua faktor (2FA):** Tambahkan lapisan keamanan ekstra pada akun Anda.\n*   **Perbarui perangkat lunak:** Pastikan sistem operasi dan aplikasi Anda selalu diperbarui.\n*   **Laporkan aktivitas mencurigakan:** Beritahu penyedia layanan atau otoritas terkait jika Anda mencurigai adanya phishing.\n",
+    "timestamp": 1764679446.1296065,
+    "model": "gemini-2.0-flash-lite"
+  },
+  "5d41402abc4b": {
+    "answer": "Halo! Bagaimana saya bisa membantu Anda dengan keamanan siber hari ini?",
+    "timestamp": 1764683148.8498557,
+    "model": "gemini-2.0-flash-lite"
+  },
+  "d0db616fbdaa": {
+    "answer": "Sebagai ahli keamanan siber, berikut langkah-langkah singkat untuk menghapus malware:\n\n1.  **Isolasi:** Putuskan koneksi internet dan jaringan untuk mencegah penyebaran.\n2.  **Pemindaian:** Gunakan perangkat lunak anti-malware yang tepercaya untuk memindai sistem.\n3.  **Penghapusan/Karantina:** Hapus atau karantina file yang terdeteksi sebagai malware.\n4.  **Pembersihan Tambahan:** Gunakan alat khusus (misalnya, malware removal tools) untuk membersihkan sisa-sisa malware.\n5.  **Pemulihan:** Periksa dan pulihkan file yang rusak atau hilang, jika perlu.\n6.  **Pencegahan:** Perbarui perangkat lunak, gunakan firewall, dan praktikkan kebiasaan aman dalam berinternet.\n",
+    "timestamp": 1764683175.1862998,
+    "model": "gemini-2.0-flash-lite"
+  },
+  "598d4c200461": {
+    "answer": "Halo!\n",
+    "timestamp": 1764683301.5637226,
+    "model": "gemini-2.0-flash-lite"
+  },
+  "214cd1b337a1": {
+    "answer": "Ya, saya tahu phishing. Ini adalah upaya penipuan untuk mendapatkan informasi sensitif seperti kata sandi, detail kartu kredit, atau data pribadi lainnya dengan menyamar sebagai entitas yang dapat dipercaya.\n",
+    "timestamp": 1764757803.6134017,
+    "model": "gemini-2.0-flash-lite"
+  },
+  "e513c104fd5b": {
+    "answer": "Sebagai ahli keamanan siber, berikut cara singkat menghindari phishing:\n\n*   **Periksa Alamat Email/URL:** Pastikan alamat email dan URL sesuai dengan yang diharapkan. Cek ejaan dan domain.\n*   **Waspada Terhadap Permintaan Mendesak:** Phishing sering menggunakan taktik mendesak (misalnya, \"akun Anda akan ditutup\").\n*   **Jangan Klik Tautan/Unduhan Mencurigakan:** Arahkan kursor ke tautan untuk melihat URL sebenarnya.\n*   **Perbarui Perangkat Lunak:** Pastikan sistem operasi dan browser Anda selalu diperbarui.\n*   **Gunakan Autentikasi Dua Faktor (2FA):** Tambahkan lapisan keamanan ekstra pada akun Anda.\n*   **Laporkan Email Phishing:** Bantu orang lain dengan melaporkan email mencurigakan.\n",
+    "timestamp": 1764758252.2252162,
+    "model": "gemini-2.0-flash-lite"
+  },
+  "d032f304ad3c": {
+    "answer": "Ya, saya tahu apa itu malware.\n",
+    "timestamp": 1764814817.045302,
+    "model": "gemini-2.0-flash-lite"
+  },
+  "5f38933bb5c4": {
+    "answer": "Sebagai ahli keamanan siber, saya akan menjawab pertanyaan Anda dengan singkat dan jelas. Silakan ajukan pertanyaan Anda!\n",
+    "timestamp": 1764814825.6255949,
+    "model": "gemini-2.0-flash-lite"
+  },
+  "8bad5ffa3901": {
+    "answer": "Sebagai ahli keamanan siber, berikut adalah beberapa jenis malware:\n\n*   **Virus:** Menempel pada file lain dan menyebar saat file dijalankan.\n*   **Worm:** Menyebar secara mandiri melalui jaringan.\n*   **Trojan:** Menyamar sebagai program yang sah untuk mengelabui pengguna.\n*   **Ransomware:** Mengenkripsi data korban dan meminta tebusan untuk pemulihan.\n*   **Spyware:** Memata-matai aktivitas pengguna dan mencuri informasi.\n*   **Adware:** Menampilkan iklan yang mengganggu dan mengumpulkan data.\n*   **Rootkit:** Menyembunyikan keberadaan malware lain dalam sistem.\n*   **Keylogger:** Merekam setiap ketikan keyboard.\n*   **Bot:** Program yang dikendalikan dari jarak jauh untuk melakukan tugas otomatis.\n",
+    "timestamp": 1764814860.7072368,
+    "model": "gemini-2.0-flash-lite"
+  }
+}
