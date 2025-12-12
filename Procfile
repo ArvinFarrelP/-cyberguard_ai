@@ -1,1 +1,1 @@
-web: gunicorn cyberguardai.wsgi --log-file -
+web: gunicorn cyberguardai.wsgi:application --bind 0.0.0.0:$PORT
