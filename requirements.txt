@@ -7,3 +7,5 @@ gunicorn==21.2.0
 # Railway requirements
 psycopg2-binary==2.9.9
 dj-database-url==2.2.0
+
+gunicorn==21.2.0
