@@ -3,7 +3,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CyberGuardAI | AI Cybersecurity Assistant</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -30,6 +30,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -40,93 +41,20 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 15px;
+            padding: 0;
             position: relative;
             overflow-x: hidden;
             transition: background 0.5s ease;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Matrix Background Effect */
-        .matrix-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.03;
-            pointer-events: none;
-        }
-
-        .cyber-bg {
-            background: 
-                linear-gradient(90deg, transparent 0%, var(--cyber-blue) 50%, transparent 100%),
-                linear-gradient(0deg, transparent 0%, var(--cyber-purple) 50%, transparent 100%);
-            background-size: 50px 50px;
-            animation: matrixMove 20s linear infinite;
-        }
-
-        .hacker-bg {
-            background: 
-                linear-gradient(90deg, transparent 0%, var(--cyber-green) 50%, transparent 100%),
-                linear-gradient(0deg, transparent 0%, #00ff00 50%, transparent 100%);
-            background-size: 40px 40px;
-            animation: matrixMove 15s linear infinite;
-        }
-
-        .neon-bg {
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(255, 255, 0, 0.1) 0%, transparent 50%);
-            animation: pulse 10s ease-in-out infinite alternate;
-        }
-
-        @keyframes matrixMove {
-            0% { background-position: 0 0; }
-            100% { background-position: 100px 100px; }
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.03; }
-            100% { opacity: 0.08; }
-        }
-
-        /* Scan Line Effect */
-        .scan-line {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, 
-                transparent, 
-                var(--cyber-blue), 
-                transparent);
-            z-index: 100;
-            animation: scan 6s linear infinite;
-            opacity: 0.3;
-            pointer-events: none;
-        }
-
-        @keyframes scan {
-            0% { top: 0; }
-            100% { top: 100%; }
-        }
-
-        /* Main Container */
+        /* Mobile-first container */
         .cyber-container {
             width: 100%;
-            max-width: 1200px;
-            height: 95vh;
-            min-height: 600px;
-            background: rgba(18, 18, 29, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            border: 1px solid rgba(0, 243, 255, 0.1);
-            box-shadow: 
-                0 0 60px rgba(0, 243, 255, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            height: 100vh;
+            background: var(--dark-2);
+            border-radius: 0;
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -135,167 +63,191 @@
             transition: all 0.5s ease;
         }
 
-        /* Header - Cyber Terminal Style */
+        /* Header - Mobile Optimized */
         .cyber-header {
-            background: linear-gradient(180deg, 
-                rgba(10, 10, 15, 0.9) 0%, 
-                rgba(26, 26, 46, 0.9) 100%);
-            padding: 20px 25px;
+            background: var(--dark-3);
+            padding: 12px 15px;
             border-bottom: 1px solid rgba(0, 243, 255, 0.2);
-            position: relative;
+            position: sticky;
+            top: 0;
+            z-index: 100;
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 10px;
         }
 
         .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
+            width: 100%;
         }
 
         .logo-section {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
             min-width: 0;
+            flex: 1;
         }
 
         .logo-glitch {
-            position: relative;
-            width: 50px;
-            height: 50px;
-            min-width: 50px;
-            background: var(--dark-3);
-            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            background: var(--dark-2);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             border: 2px solid var(--cyber-blue);
-            box-shadow: var(--glow);
-            overflow: hidden;
-        }
-
-        .logo-glitch::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background: var(--cyber-green);
-            animation: glitch 3s infinite;
-        }
-
-        @keyframes glitch {
-            0%, 100% { transform: translateX(0); opacity: 1; }
-            50% { transform: translateX(10px); opacity: 0.5; }
-            51% { transform: translateX(-10px); opacity: 0.5; }
-            52% { transform: translateX(0); opacity: 1; }
+            flex-shrink: 0;
         }
 
         .logo-glitch i {
-            font-size: 24px;
+            font-size: 20px;
             background: linear-gradient(45deg, var(--cyber-blue), var(--cyber-purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            z-index: 1;
         }
 
         .logo-text {
             min-width: 0;
             overflow: hidden;
+            flex: 1;
         }
 
         .logo-text h1 {
             font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-size: 1.2rem;
             font-weight: 700;
-            background: linear-gradient(45deg, var(--cyber-blue), var(--cyber-green), var(--cyber-purple));
+            background: linear-gradient(45deg, var(--cyber-blue), var(--cyber-green));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
-            letter-spacing: 1px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .logo-text p {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: var(--light-2);
-            margin-top: 3px;
+            margin-top: 2px;
             font-family: 'JetBrains Mono', monospace;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        /* Theme Selector */
-        .theme-selector {
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: none;
+            color: var(--cyber-blue);
+            font-size: 1.2rem;
+            cursor: pointer;
             display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
+            align-items: center;
             justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Theme Selector - Mobile Optimized */
+        .theme-selector {
+            display: none;
+            position: fixed;
+            top: 64px;
+            left: 0;
+            right: 0;
+            background: var(--dark-3);
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+            padding: 10px 15px;
+            z-index: 99;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .theme-selector::-webkit-scrollbar {
+            display: none;
+        }
+
+        .theme-selector.show {
+            display: flex;
         }
 
         .theme-btn {
-            padding: 8px 16px;
+            padding: 8px 12px;
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             background: rgba(0, 0, 0, 0.3);
             color: var(--light-2);
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
+            flex-shrink: 0;
+            white-space: nowrap;
         }
 
-        .theme-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        .theme-btn i {
+            font-size: 0.9rem;
+        }
+
+        .theme-btn span {
+            display: none;
         }
 
         .theme-btn.active {
             background: var(--cyber-blue);
             color: var(--dark-1);
             border-color: var(--cyber-blue);
-            font-weight: bold;
         }
 
-        /* System Status */
+        /* System Status - Mobile Optimized */
         .system-status {
             display: flex;
-            gap: clamp(10px, 2vw, 20px);
+            justify-content: space-between;
             background: rgba(0, 0, 0, 0.3);
-            padding: 10px clamp(10px, 2vw, 20px);
-            border-radius: 10px;
+            padding: 8px;
+            border-radius: 8px;
             border: 1px solid rgba(0, 243, 255, 0.2);
-            flex-wrap: wrap;
-            justify-content: center;
+            width: 100%;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .system-status::-webkit-scrollbar {
+            display: none;
         }
 
         .status-item {
             text-align: center;
             position: relative;
-            min-width: 70px;
+            min-width: 65px;
+            padding: 0 5px;
+            flex-shrink: 0;
         }
 
         .status-value {
             font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(1rem, 3vw, 1.3rem);
+            font-size: 0.9rem;
             font-weight: 600;
             color: var(--cyber-green);
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
             white-space: nowrap;
         }
 
         .status-label {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             color: var(--light-2);
             margin-top: 2px;
             text-transform: uppercase;
@@ -303,44 +255,27 @@
             white-space: nowrap;
         }
 
-        .status-indicator {
-            position: absolute;
-            top: -3px;
-            right: -3px;
-            width: 6px;
-            height: 6px;
-            background: var(--cyber-green);
-            border-radius: 50%;
-            box-shadow: 0 0 8px var(--cyber-green);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        /* Chat Area - Terminal Style */
+        /* Chat Area - Mobile Optimized */
         .cyber-chat {
             flex: 1;
-            padding: 20px;
+            padding: 15px;
             overflow-y: auto;
-            background: linear-gradient(180deg, 
-                rgba(10, 10, 15, 0.8) 0%, 
-                rgba(26, 26, 46, 0.8) 100%);
+            background: var(--dark-2);
             position: relative;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
+            -webkit-overflow-scrolling: touch;
         }
 
-        /* Terminal-style message */
+        /* Terminal Messages - Mobile Optimized */
         .terminal-message {
             font-family: 'JetBrains Mono', monospace;
-            animation: terminalTyping 0.5s ease-out;
+            animation: terminalTyping 0.3s ease-out;
             width: 100%;
             word-wrap: break-word;
             overflow-wrap: break-word;
+            font-size: 0.9rem;
         }
 
         @keyframes terminalTyping {
@@ -358,11 +293,11 @@
 
         .prompt-symbol {
             color: var(--cyber-green);
-            margin-right: 10px;
+            margin-right: 8px;
             font-weight: bold;
             white-space: nowrap;
             flex-shrink: 0;
-            min-width: 20px;
+            min-width: 15px;
         }
 
         .prompt-user {
@@ -375,21 +310,22 @@
 
         .prompt-text {
             color: var(--light-1);
-            line-height: 1.5;
+            line-height: 1.4;
             flex: 1;
             min-width: 0;
             word-break: break-word;
             overflow-wrap: break-word;
-            padding-right: 10px;
+            padding-right: 5px;
         }
 
         .prompt-output {
-            padding-left: 30px;
-            color: var(--light-2);
-            line-height: 1.6;
+            padding-left: 20px;
+            margin-left: 10px;
             border-left: 2px solid var(--dark-4);
-            margin-left: 20px;
-            margin-top: 8px;
+            margin-top: 5px;
+            color: var(--light-2);
+            line-height: 1.4;
+            font-size: 0.9rem;
             width: calc(100% - 20px);
             word-break: break-word;
             overflow-wrap: break-word;
@@ -399,25 +335,27 @@
             background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(0, 243, 255, 0.2);
             border-radius: 6px;
-            padding: 12px;
-            margin: 8px 0;
+            padding: 10px;
+            margin: 6px 0;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             overflow-x: auto;
             white-space: pre-wrap;
             word-break: break-word;
+            -webkit-overflow-scrolling: touch;
         }
 
         .code-keyword { color: var(--cyber-blue); }
         .code-string { color: var(--cyber-green); }
         .code-comment { color: var(--light-2); opacity: 0.7; }
 
-        /* Input Area - Cyber Console */
+        /* Input Area - Mobile Optimized */
         .cyber-input {
-            padding: 20px;
-            background: rgba(10, 10, 15, 0.9);
+            padding: 15px;
+            background: var(--dark-3);
             border-top: 1px solid rgba(0, 243, 255, 0.2);
-            position: relative;
+            position: sticky;
+            bottom: 0;
             flex-shrink: 0;
         }
 
@@ -427,50 +365,36 @@
             align-items: center;
             background: rgba(0, 0, 0, 0.3);
             border: 2px solid rgba(0, 243, 255, 0.2);
-            border-radius: 10px;
+            border-radius: 8px;
             overflow: hidden;
             transition: all 0.3s;
-            min-height: 60px;
+            min-height: 50px;
         }
 
         .input-wrapper:focus-within {
             border-color: var(--cyber-blue);
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
         }
 
         .console-prompt {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--cyber-green);
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: bold;
-            pointer-events: none;
-            white-space: nowrap;
-            font-size: clamp(0.8rem, 2vw, 1rem);
-            z-index: 2;
-            background: rgba(10, 10, 15, 0.9);
-            padding: 0 5px;
+            display: none;
         }
 
         .console-input {
             width: 100%;
-            padding: 18px 130px 18px 110px;
+            padding: 12px 45px 12px 12px;
             background: transparent;
             border: none;
             color: var(--light-1);
             font-family: 'Inter', sans-serif;
-            font-size: clamp(14px, 2vw, 16px);
+            font-size: 14px;
             resize: none;
             outline: none;
-            line-height: 1.5;
-            min-height: 60px;
-            max-height: 120px;
+            line-height: 1.4;
+            min-height: 48px;
+            max-height: 100px;
             overflow-y: auto;
             word-break: break-word;
-            position: relative;
-            z-index: 1;
+            -webkit-overflow-scrolling: touch;
         }
 
         .console-input::placeholder {
@@ -480,18 +404,18 @@
 
         .console-buttons {
             position: absolute;
-            right: 10px;
+            right: 5px;
             top: 50%;
             transform: translateY(-50%);
             display: flex;
-            gap: 8px;
+            gap: 5px;
             z-index: 2;
         }
 
         .cyber-btn {
-            width: 40px;
-            height: 40px;
-            min-width: 40px;
+            width: 35px;
+            height: 35px;
+            min-width: 35px;
             background: rgba(0, 243, 255, 0.1);
             border: 1px solid rgba(0, 243, 255, 0.3);
             border-radius: 6px;
@@ -501,312 +425,144 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s;
-            font-size: 16px;
-        }
-
-        .cyber-btn:hover {
-            background: rgba(0, 243, 255, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 243, 255, 0.2);
+            font-size: 14px;
         }
 
         .cyber-btn:active {
-            transform: translateY(0);
+            transform: scale(0.95);
+            background: rgba(0, 243, 255, 0.2);
         }
 
-        /* Quick Commands */
+        /* Quick Commands - Mobile Optimized */
         .quick-commands {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding-bottom: 5px;
+        }
+
+        .quick-commands::-webkit-scrollbar {
+            display: none;
         }
 
         .command-chip {
             background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(0, 243, 255, 0.2);
             border-radius: 16px;
-            padding: 8px 15px;
+            padding: 6px 12px;
             color: var(--light-2);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             cursor: pointer;
             transition: all 0.3s;
             font-family: 'Inter', sans-serif;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             white-space: nowrap;
             flex-shrink: 0;
         }
 
-        .command-chip:hover {
+        .command-chip:active {
             background: rgba(0, 243, 255, 0.1);
             color: var(--cyber-blue);
-            transform: translateY(-1px);
             border-color: var(--cyber-blue);
+            transform: scale(0.95);
         }
 
-        /* Footer - System Info */
+        /* Footer - Mobile Optimized */
         .cyber-footer {
-            padding: 15px 20px;
-            background: rgba(10, 10, 15, 0.9);
+            padding: 10px 15px;
+            background: var(--dark-3);
             border-top: 1px solid rgba(0, 243, 255, 0.2);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 10px;
             flex-shrink: 0;
         }
 
         .system-info {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             font-family: 'Inter', sans-serif;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             flex-wrap: wrap;
         }
 
         .info-item {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             color: var(--light-2);
             white-space: nowrap;
         }
 
         .info-item i {
             color: var(--cyber-blue);
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
 
         .footer-controls {
             display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+            gap: 8px;
+            flex-wrap: nowrap;
         }
 
         .control-btn {
             background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(0, 243, 255, 0.2);
             border-radius: 6px;
-            padding: 6px 12px;
+            padding: 6px 10px;
             color: var(--light-2);
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             font-family: 'Inter', sans-serif;
             white-space: nowrap;
         }
 
-        .control-btn:hover {
+        .control-btn:active {
+            transform: scale(0.95);
             background: rgba(0, 243, 255, 0.1);
-            color: var(--cyber-blue);
-            border-color: var(--cyber-blue);
         }
 
-        /* Scrollbar Styling */
+        /* Scrollbar */
         .cyber-chat::-webkit-scrollbar {
-            width: 8px;
+            width: 4px;
         }
 
         .cyber-chat::-webkit-scrollbar-track {
             background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
+            border-radius: 2px;
         }
 
         .cyber-chat::-webkit-scrollbar-thumb {
-            background: linear-gradient(45deg, var(--cyber-blue), var(--cyber-purple));
-            border-radius: 10px;
-            border: 2px solid rgba(10, 10, 15, 0.9);
+            background: var(--cyber-blue);
+            border-radius: 2px;
         }
 
-        .cyber-chat::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(45deg, var(--cyber-green), var(--cyber-blue));
-        }
-
-        /* Mobile Optimizations */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            
-            .cyber-container {
-                height: 100vh;
-                border-radius: 15px;
-                min-height: auto;
-            }
-            
-            .cyber-header {
-                padding: 15px;
-                gap: 10px;
-            }
-            
-            .header-top {
-                flex-direction: column;
-                text-align: center;
-                gap: 10px;
-            }
-            
-            .logo-section {
-                flex-direction: column;
-                text-align: center;
-                width: 100%;
-            }
-            
-            .logo-text h1, .logo-text p {
-                text-align: center;
-                width: 100%;
-            }
-            
-            .theme-selector {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .theme-btn {
-                font-size: 0.7rem;
-                padding: 6px 12px;
-            }
-            
-            .system-status {
-                width: 100%;
-                justify-content: space-around;
-            }
-            
-            .status-item {
-                min-width: 60px;
-            }
-            
-            .cyber-chat {
-                padding: 15px;
-                gap: 12px;
-            }
-            
-            .prompt-output {
-                padding-left: 15px;
-                margin-left: 15px;
-                font-size: 0.9rem;
-            }
-            
-            .console-prompt {
-                left: 10px;
-                font-size: 0.8rem;
-                padding: 0 3px;
-            }
-            
-            .console-input {
-                padding-left: 80px;
-                padding-right: 100px;
-                font-size: 14px;
-            }
-            
-            .cyber-btn {
-                width: 35px;
-                height: 35px;
-                min-width: 35px;
-                font-size: 14px;
-            }
-            
-            .quick-commands {
-                gap: 8px;
-                justify-content: center;
-            }
-            
-            .command-chip {
-                font-size: 0.75rem;
-                padding: 6px 12px;
-            }
-            
-            .cyber-footer {
-                flex-direction: column;
-                text-align: center;
-                gap: 10px;
-            }
-            
-            .system-info, .footer-controls {
-                justify-content: center;
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .console-input {
-                padding-left: 15px;
-                padding-right: 80px;
-            }
-            
-            .console-prompt {
-                display: none;
-            }
-            
-            .command-chip {
-                font-size: 0.7rem;
-                padding: 5px 10px;
-            }
-            
-            .status-item {
-                min-width: 50px;
-            }
-            
-            .status-value {
-                font-size: 0.9rem;
-            }
-            
-            .status-label {
-                font-size: 0.65rem;
-            }
-            
-            .theme-btn span {
-                display: none;
-            }
-            
-            .theme-btn {
-                padding: 8px;
-                border-radius: 50%;
-                width: 40px;
-                height: 40px;
-                justify-content: center;
-            }
-        }
-
-        /* ASCII Art */
-        .ascii-art {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 6px;
-            color: var(--cyber-green);
-            opacity: 0.3;
-            text-align: center;
-            margin-top: 10px;
-            line-height: 1;
-            user-select: none;
-            display: none;
-        }
-
-        @media (min-width: 1024px) {
-            .ascii-art {
-                display: block;
-                font-size: 8px;
-            }
-        }
-
-        /* Message Content Styling */
+        /* Message Content */
         .message-content {
             width: 100%;
         }
 
         .message-content ul,
         .message-content ol {
-            margin-left: 20px;
-            margin-bottom: 10px;
+            margin-left: 15px;
+            margin-bottom: 8px;
         }
 
         .message-content li {
-            margin-bottom: 5px;
-            line-height: 1.5;
+            margin-bottom: 4px;
+            line-height: 1.4;
         }
 
         .message-content strong {
@@ -823,18 +579,18 @@
         .typing-indicator {
             display: flex;
             align-items: center;
-            gap: 5px;
-            padding: 10px;
+            gap: 4px;
+            padding: 8px;
             background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
+            border-radius: 8px;
             border: 1px solid rgba(0, 243, 255, 0.2);
             width: fit-content;
-            margin: 10px 0;
+            margin: 8px 0;
         }
 
         .typing-dot {
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
             background: var(--cyber-blue);
             border-radius: 50%;
             animation: typingDot 1.4s infinite ease-in-out;
@@ -845,7 +601,7 @@
 
         @keyframes typingDot {
             0%, 80%, 100% { transform: translateY(0); opacity: 0.5; }
-            40% { transform: translateY(-6px); opacity: 1; }
+            40% { transform: translateY(-4px); opacity: 1; }
         }
 
         /* Theme Colors */
@@ -929,57 +685,32 @@
             --dark-4: #660000;
         }
 
-        /* Notification Styles */
-        .cyber-notification {
+        /* Mobile Notification */
+        .mobile-notification {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 10px;
+            right: 10px;
+            left: 10px;
             background: rgba(0, 243, 255, 0.1);
             border: 1px solid var(--cyber-blue);
             color: var(--cyber-blue);
-            padding: 12px 20px;
+            padding: 10px 15px;
             border-radius: 8px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-            z-index: 9999;
+            font-size: 13px;
+            z-index: 1000;
             backdrop-filter: blur(10px);
             animation: notificationSlideIn 0.3s ease;
-            max-width: 300px;
+            text-align: center;
             word-wrap: break-word;
         }
 
         @keyframes notificationSlideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        @keyframes notificationSlideOut {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
-        }
-
-        /* Error Message Styling */
-        .error-message {
-            animation: shake 0.5s ease-in-out;
-            border-left-color: var(--cyber-red);
-        }
-
-        .error-message .prompt-symbol {
-            color: var(--cyber-red);
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         /* Loading Animation */
-        .loading {
-            opacity: 0.7;
-            pointer-events: none;
-        }
-
         .loading-spinner {
             display: inline-block;
             animation: spin 1s linear infinite;
@@ -989,15 +720,104 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Tablet Optimizations */
+        @media (min-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .cyber-container {
+                height: 90vh;
+                max-width: 800px;
+                border-radius: 15px;
+            }
+            
+            .logo-text h1 {
+                font-size: 1.5rem;
+            }
+            
+            .logo-text p {
+                font-size: 0.8rem;
+            }
+            
+            .theme-btn span {
+                display: inline;
+            }
+            
+            .console-prompt {
+                display: block;
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--cyber-green);
+                font-family: 'JetBrains Mono', monospace;
+                font-weight: bold;
+                pointer-events: none;
+                white-space: nowrap;
+                font-size: 0.9rem;
+                z-index: 2;
+                background: rgba(10, 10, 15, 0.9);
+                padding: 0 5px;
+            }
+            
+            .console-input {
+                padding-left: 100px;
+                padding-right: 110px;
+            }
+            
+            .command-chip {
+                font-size: 0.8rem;
+                padding: 8px 15px;
+            }
+        }
+
+        /* Desktop Optimizations */
+        @media (min-width: 1024px) {
+            .cyber-container {
+                max-width: 1000px;
+                height: 85vh;
+            }
+            
+            .theme-selector {
+                position: static;
+                display: flex;
+                background: transparent;
+                border: none;
+                padding: 0;
+                overflow-x: visible;
+            }
+            
+            .mobile-menu-btn {
+                display: none;
+            }
+            
+            .cyber-header {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                gap: 20px;
+            }
+            
+            .header-top {
+                flex: 1;
+            }
+            
+            .theme-selector {
+                flex: 0;
+                gap: 5px;
+            }
+            
+            .system-status {
+                flex: 0;
+                width: auto;
+                padding: 8px 15px;
+            }
+        }
     </style>
 </head>
 <body class="theme-cyber">
-    <!-- Matrix Background -->
-    <div class="matrix-bg cyber-bg"></div>
-    
-    <!-- Scan Line -->
-    <div class="scan-line"></div>
-    
     <!-- Main Container -->
     <div class="cyber-container">
         <!-- Header -->
@@ -1009,33 +829,17 @@
                     </div>
                     <div class="logo-text">
                         <h1>CYBERGUARDAI</h1>
-                        <p>// ADVANCED CYBERSECURITY TERMINAL v3.0</p>
+                        <p>// CYBERSECURITY TERMINAL v3.0</p>
                     </div>
                 </div>
                 
-                <div class="system-status">
-                    <div class="status-item">
-                        <div class="status-indicator"></div>
-                        <div class="status-value" id="connectionStatus">ONLINE</div>
-                        <div class="status-label">CONNECTION</div>
-                    </div>
-                    <div class="status-item">
-                        <div class="status-value" id="messageCount">0</div>
-                        <div class="status-label">MESSAGES</div>
-                    </div>
-                    <div class="status-item">
-                        <div class="status-value">ENC ▲</div>
-                        <div class="status-label">SECURITY</div>
-                    </div>
-                    <div class="status-item">
-                        <div class="status-value" id="responseTime">0ms</div>
-                        <div class="status-label">RESPONSE</div>
-                    </div>
-                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-palette"></i>
+                </button>
             </div>
             
-            <!-- Theme Selector -->
-            <div class="theme-selector">
+            <!-- Theme Selector - Hidden by default on mobile -->
+            <div class="theme-selector" id="themeSelector">
                 <button class="theme-btn active" data-theme="cyber">
                     <i class="fas fa-robot"></i><span>Cyber</span>
                 </button>
@@ -1058,6 +862,26 @@
                     <i class="fas fa-fire"></i><span>Fire</span>
                 </button>
             </div>
+            
+            <!-- System Status -->
+            <div class="system-status">
+                <div class="status-item">
+                    <div class="status-value" id="connectionStatus">ONLINE</div>
+                    <div class="status-label">CONN</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-value" id="messageCount">0</div>
+                    <div class="status-label">MSGS</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-value">ENC</div>
+                    <div class="status-label">SEC</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-value" id="responseTime">0ms</div>
+                    <div class="status-label">RESP</div>
+                </div>
+            </div>
         </div>
         
         <!-- Chat Area -->
@@ -1066,13 +890,13 @@
             <div class="terminal-message">
                 <div class="prompt-line">
                     <span class="prompt-symbol prompt-bot">$</span>
-                    <div class="prompt-text">INITIALIZING CYBERGUARDAI SYSTEM...</div>
+                    <div class="prompt-text">SYSTEM INITIALIZED</div>
                 </div>
                 <div class="prompt-output">
-                    <span class="code-string">System Check:</span> [██████████] 100%<br>
-                    <span class="code-string">Security Protocols:</span> [██████████] 100%<br>
+                    <span class="code-string">System:</span> [██████████] 100%<br>
+                    <span class="code-string">Security:</span> [██████████] 100%<br>
                     <span class="code-string">AI Module:</span> [██████████] 100%<br>
-                    <span class="code-keyword">>>> SYSTEM READY</span>
+                    <span class="code-keyword">>>> READY</span>
                 </div>
             </div>
             
@@ -1081,20 +905,19 @@
                 <div class="prompt-line">
                     <span class="prompt-symbol prompt-bot">#</span>
                     <div class="prompt-text">
-                        Welcome to <span class="code-keyword">CyberGuardAI Terminal</span><br>
-                        Select a theme above or ask cybersecurity questions.
+                        Welcome to CyberGuardAI<br>
+                        Ask cybersecurity questions.
                     </div>
                 </div>
                 <div class="prompt-output">
-                    <strong>Available Topics:</strong><br>
-                    • 🔒 Firewall Configuration & Network Security<br>
-                    • 🦠 Malware Detection & Virus Removal<br>
-                    • 📧 Phishing Email Analysis & Prevention<br>
-                    • 🔑 Password Security & 2FA Setup<br>
-                    • 💾 Data Backup & Recovery Strategies<br>
-                    • 🛡️ Endpoint Protection & Encryption<br>
-                    • 🚨 Incident Response & Threat Hunting<br><br>
-                    <em>Type your query in the console below...</em>
+                    <strong>Topics:</strong><br>
+                    • 🔒 Firewall & Network Security<br>
+                    • 🦠 Malware Detection<br>
+                    • 📧 Phishing Prevention<br>
+                    • 🔑 Password Security<br>
+                    • 💾 Data Backup<br>
+                    • 🛡️ Encryption<br>
+                    • 🚨 Incident Response
                 </div>
             </div>
             
@@ -1113,27 +936,13 @@
             <div class="terminal-message">
                 <div class="prompt-line">
                     <span class="prompt-symbol prompt-bot">$</span>
-                    <div class="prompt-text">RESPONSE GENERATED</div>
+                    <div class="prompt-text">RESPONSE</div>
                 </div>
                 <div class="prompt-output message-content">
                     {{ bot_reply|linebreaks }}
                 </div>
             </div>
             {% endif %}
-            
-            <!-- ASCII Art Footer -->
-            <div class="ascii-art">
-                <pre>
-   _____       _               _____               _    _____ ___ 
-  / ____|     | |             / ____|             | |  |_   _|__ \
- | |    _   _ | |__  _   _  | |  __  __ _  _ __  | |_   | |    ) |
- | |   | | | || '_ \| | | | | | |_ |/ _` || '_ \ | __|  | |   / / 
- | |___| |_| || |_) | |_| | | |__| | (_| || | | || |_  _| |_ / /_ 
-  \_____\__,_||_.__/ \__, |  \_____|\__,_||_| |_| \__||_____|____|
-                      __/ |                                       
-                     |___/                                        
-                </pre>
-            </div>
         </div>
         
         <!-- Input Area -->
@@ -1146,18 +955,15 @@
                         name="user_input" 
                         class="console-input" 
                         id="userInput"
-                        placeholder="Type your cybersecurity query here... (Press Enter to send)"
+                        placeholder="Type cybersecurity query..."
                         rows="1"
                         required></textarea>
                     <div class="console-buttons">
-                        <button type="submit" class="cyber-btn" id="submitBtn" title="Send Message">
+                        <button type="submit" class="cyber-btn" id="submitBtn" title="Send">
                             <i class="fas fa-paper-plane"></i>
                         </button>
-                        <button type="button" class="cyber-btn" onclick="clearConsole()" title="Clear Input">
+                        <button type="button" class="cyber-btn" onclick="clearConsole()" title="Clear">
                             <i class="fas fa-eraser"></i>
-                        </button>
-                        <button type="button" class="cyber-btn" onclick="showHelp()" title="Show Help">
-                            <i class="fas fa-question"></i>
                         </button>
                     </div>
                 </div>
@@ -1167,16 +973,16 @@
                 <div class="command-chip" onclick="insertCommand('How to detect phishing emails?')">
                     <i class="fas fa-envelope"></i> Phishing
                 </div>
-                <div class="command-chip" onclick="insertCommand('Best practices for firewall configuration')">
+                <div class="command-chip" onclick="insertCommand('Firewall configuration')">
                     <i class="fas fa-fire"></i> Firewall
                 </div>
-                <div class="command-chip" onclick="insertCommand('How to create strong passwords?')">
+                <div class="command-chip" onclick="insertCommand('Strong passwords?')">
                     <i class="fas fa-key"></i> Passwords
                 </div>
-                <div class="command-chip" onclick="insertCommand('Malware removal steps')">
+                <div class="command-chip" onclick="insertCommand('Malware removal')">
                     <i class="fas fa-bug"></i> Malware
                 </div>
-                <div class="command-chip" onclick="insertCommand('Data backup strategies')">
+                <div class="command-chip" onclick="insertCommand('Data backup')">
                     <i class="fas fa-database"></i> Backup
                 </div>
             </div>
@@ -1191,11 +997,7 @@
                 </div>
                 <div class="info-item">
                     <i class="fas fa-shield-alt"></i>
-                    <span>Encryption: AES-256</span>
-                </div>
-                <div class="info-item">
-                    <i class="fas fa-network-wired"></i>
-                    <span>Status: <span id="liveStatus">Secure</span></span>
+                    <span>AES-256</span>
                 </div>
             </div>
             
@@ -1206,539 +1008,232 @@
                 <button class="control-btn" onclick="clearChat()">
                     <i class="fas fa-trash"></i> Clear
                 </button>
-                <button class="control-btn" onclick="toggleFullscreen()">
-                    <i class="fas fa-expand"></i> Fullscreen
-                </button>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript -->
+    <!-- Simplified JavaScript -->
     <script>
-        // ============================================
-        // UTILITY FUNCTIONS
-        // ============================================
-        class CyberGuardUtils {
-            static escapeHtml(text) {
-                const map = {
-                    '&': '&amp;',
-                    '<': '&lt;',
-                    '>': '&gt;',
-                    '"': '&quot;',
-                    "'": '&#039;'
-                };
-                return text.replace(/[&<>"']/g, m => map[m]);
-            }
-
-            static safeLocalStorageSet(key, value) {
-                try {
-                    localStorage.setItem(key, JSON.stringify(value));
-                    return true;
-                } catch (e) {
-                    console.warn('LocalStorage error:', e);
-                    // Fallback ke sessionStorage
-                    try {
-                        sessionStorage.setItem(key, JSON.stringify(value));
-                        return true;
-                    } catch (e2) {
-                        console.warn('SessionStorage error:', e2);
-                        // Fallback ke cookie
-                        document.cookie = `${key}=${encodeURIComponent(JSON.stringify(value))}; path=/; max-age=31536000`;
-                        return false;
-                    }
-                }
-            }
-
-            static safeLocalStorageGet(key) {
-                try {
-                    const value = localStorage.getItem(key);
-                    return value ? JSON.parse(value) : null;
-                } catch (e) {
-                    console.warn('LocalStorage get error:', e);
-                    // Try sessionStorage
-                    try {
-                        const value = sessionStorage.getItem(key);
-                        return value ? JSON.parse(value) : null;
-                    } catch (e2) {
-                        // Try cookie
-                        const match = document.cookie.match(new RegExp('(^| )' + key + '=([^;]+)'));
-                        return match ? JSON.parse(decodeURIComponent(match[2])) : null;
-                    }
-                }
-            }
-
-            static validateInput(text) {
-                const trimmed = text.trim();
-                
-                if (!trimmed) {
-                    return { valid: false, error: 'Input cannot be empty' };
-                }
-                
-                if (trimmed.length > 1000) {
-                    return { valid: false, error: 'Input too long (max 1000 characters)' };
-                }
-                
-                // Simple spam detection
-                if (trimmed.split(' ').length < 2 && trimmed.length > 50) {
-                    return { valid: false, error: 'Message looks suspicious' };
-                }
-                
-                return { valid: true, value: trimmed };
-            }
-
-            static debounce(func, wait) {
-                let timeout;
-                return function executedFunction(...args) {
-                    const later = () => {
-                        clearTimeout(timeout);
-                        func(...args);
-                    };
-                    clearTimeout(timeout);
-                    timeout = setTimeout(later, wait);
-                };
-            }
-
-            static getCSRFToken() {
-                const csrfInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
-                return csrfInput ? csrfInput.value : '';
-            }
-        }
-
-        // ============================================
-        // MAIN APPLICATION CLASS
-        // ============================================
-        class CyberGuardAI {
+        class CyberGuardMobile {
             constructor() {
                 this.currentTheme = 'cyber';
-                this.commandHistory = [];
-                this.historyIndex = -1;
                 this.isSubmitting = false;
                 this.init();
             }
 
             init() {
-                console.log('🔐 CyberGuardAI Initializing...');
-                
-                this.loadSavedTheme();
-                this.setupEventListeners();
+                this.loadTheme();
+                this.setupListeners();
                 this.startTimers();
-                this.updateUI();
-                
-                console.log('✅ CyberGuardAI Initialized');
-            }
-
-            setupEventListeners() {
-                // Theme buttons
-                document.querySelectorAll('.theme-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const theme = e.currentTarget.dataset.theme;
-                        this.applyTheme(theme, true);
-                    });
-                });
-
-                // Form submission
-                const form = document.getElementById('chatForm');
-                if (form) {
-                    form.addEventListener('submit', this.handleSubmit.bind(this));
-                }
-
-                // Textarea events
-                const textarea = document.getElementById('userInput');
-                if (textarea) {
-                    textarea.addEventListener('keydown', this.handleTextareaKeydown.bind(this));
-                    textarea.addEventListener('input', this.handleTextareaInput.bind(this));
-                    textarea.focus();
-                }
-
-                // Window resize
-                window.addEventListener('resize', CyberGuardUtils.debounce(() => {
-                    this.adjustInputPadding();
-                    this.scrollToBottom();
-                }, 250));
-
-                // Page visibility
-                document.addEventListener('visibilitychange', () => {
-                    if (!document.hidden) {
-                        this.updateTime();
-                        this.checkThemeConsistency();
-                    }
-                });
-
-                // Fullscreen change
-                document.addEventListener('fullscreenchange', () => {
-                    const notification = document.fullscreenElement 
-                        ? 'Fullscreen enabled' 
-                        : 'Fullscreen disabled';
-                    this.showNotification(notification);
-                });
-            }
-
-            startTimers() {
-                this.updateTime();
-                setInterval(() => this.updateTime(), 1000);
-                setInterval(() => this.simulateLatency(), 10000);
-                setInterval(() => this.updateLiveStatus(), 15000);
-                setInterval(() => this.updateConnectionAnimation(), 3000);
-            }
-
-            updateUI() {
-                this.updateMessageCount();
                 this.scrollToBottom();
-                this.adjustInputPadding();
-                this.loadCommandHistory();
+                
+                // Focus input on load
+                setTimeout(() => {
+                    const input = document.getElementById('userInput');
+                    if (input) input.focus();
+                }, 500);
             }
 
-            // ============================================
-            // THEME MANAGEMENT
-            // ============================================
-            loadSavedTheme() {
+            loadTheme() {
                 try {
-                    const savedTheme = CyberGuardUtils.safeLocalStorageGet('cyberguard_theme') || 'cyber';
-                    this.currentTheme = savedTheme;
-                    
-                    // Apply theme with delay to avoid race condition
-                    setTimeout(() => {
-                        this.applyTheme(savedTheme, false);
-                    }, 50);
-                } catch (error) {
-                    console.warn('Error loading theme:', error);
+                    const saved = localStorage.getItem('cyberguard_theme') || 'cyber';
+                    this.applyTheme(saved, false);
+                } catch (e) {
                     this.applyTheme('cyber', false);
                 }
             }
 
             applyTheme(theme, showNotification = true) {
+                document.body.className = 'theme-' + theme;
+                this.currentTheme = theme;
+                
+                document.querySelectorAll('.theme-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.theme === theme) btn.classList.add('active');
+                });
+                
                 try {
-                    const body = document.body;
-                    const matrixBg = document.querySelector('.matrix-bg');
-                    const themeButtons = document.querySelectorAll('.theme-btn');
-                    const scanLine = document.querySelector('.scan-line');
-                    
-                    // Update body class
-                    body.className = 'theme-' + theme;
-                    this.currentTheme = theme;
-                    
-                    // Update background
-                    matrixBg.className = 'matrix-bg';
-                    if (theme === 'hacker' || theme === 'matrix') {
-                        matrixBg.classList.add('hacker-bg');
-                    } else if (theme === 'neon') {
-                        matrixBg.classList.add('neon-bg');
-                    } else {
-                        matrixBg.classList.add('cyber-bg');
-                    }
-                    
-                    // Update active button
-                    themeButtons.forEach(btn => {
-                        btn.classList.remove('active');
-                        if (btn.dataset.theme === theme) {
-                            btn.classList.add('active');
-                        }
+                    localStorage.setItem('cyberguard_theme', theme);
+                } catch (e) {}
+                
+                if (showNotification) {
+                    this.showNotification(`Theme: ${theme}`);
+                }
+            }
+
+            setupListeners() {
+                // Theme buttons
+                document.querySelectorAll('.theme-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const theme = e.currentTarget.dataset.theme;
+                        this.applyTheme(theme, true);
+                        this.toggleThemeSelector();
+                    });
+                });
+
+                // Mobile menu
+                const menuBtn = document.getElementById('mobileMenuBtn');
+                if (menuBtn) {
+                    menuBtn.addEventListener('click', () => this.toggleThemeSelector());
+                }
+
+                // Form
+                const form = document.getElementById('chatForm');
+                if (form) {
+                    form.addEventListener('submit', (e) => this.handleSubmit(e));
+                }
+
+                // Textarea
+                const textarea = document.getElementById('userInput');
+                if (textarea) {
+                    textarea.addEventListener('input', (e) => {
+                        e.target.style.height = 'auto';
+                        e.target.style.height = Math.min(e.target.scrollHeight, 100) + 'px';
                     });
                     
-                    // Update scan line
-                    if (scanLine) {
-                        scanLine.style.background = `linear-gradient(90deg, transparent, var(--cyber-blue), transparent)`;
+                    textarea.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            if (textarea.value.trim()) {
+                                form.dispatchEvent(new Event('submit'));
+                            }
+                        }
+                    });
+                }
+
+                // Close theme selector when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('#themeSelector') && 
+                        !e.target.closest('#mobileMenuBtn')) {
+                        const selector = document.getElementById('themeSelector');
+                        if (selector) selector.classList.remove('show');
                     }
-                    
-                    // Save to storage
-                    CyberGuardUtils.safeLocalStorageSet('cyberguard_theme', theme);
-                    
-                    // Show notification
-                    if (showNotification) {
-                        this.showNotification(`Theme: ${theme.charAt(0).toUpperCase() + theme.slice(1)}`);
-                    }
-                    
-                } catch (error) {
-                    console.error('Error applying theme:', error);
+                });
+            }
+
+            toggleThemeSelector() {
+                const selector = document.getElementById('themeSelector');
+                if (selector) {
+                    selector.classList.toggle('show');
                 }
             }
 
-            checkThemeConsistency() {
-                const currentThemeClass = document.body.className.replace('theme-', '');
-                if (this.currentTheme !== currentThemeClass) {
-                    this.applyTheme(this.currentTheme, false);
-                }
-            }
-
-            // ============================================
-            // FORM HANDLING
-            // ============================================
             async handleSubmit(e) {
                 e.preventDefault();
-                
                 if (this.isSubmitting) return;
                 
                 const textarea = document.getElementById('userInput');
-                const submitBtn = document.getElementById('submitBtn');
-                const originalBtnHTML = submitBtn.innerHTML;
                 const message = textarea.value.trim();
                 
-                // Validate input
-                const validation = CyberGuardUtils.validateInput(message);
-                if (!validation.valid) {
-                    this.showNotification(validation.error, 'error');
-                    return;
-                }
+                if (!message) return;
                 
-                // Set loading state
                 this.isSubmitting = true;
+                const submitBtn = document.getElementById('submitBtn');
+                const originalHTML = submitBtn.innerHTML;
                 submitBtn.innerHTML = '<i class="fas fa-spinner loading-spinner"></i>';
-                submitBtn.classList.add('loading');
                 
                 try {
-                    // Save to command history
-                    this.saveToCommandHistory(message);
+                    this.showTyping();
                     
-                    // Show typing indicator
-                    this.showTypingIndicator();
-                    
-                    // Prepare form data
                     const formData = new FormData(e.target);
-                    formData.append('current_theme', this.currentTheme);
-                    formData.append('timestamp', Date.now());
                     
-                    // Send request
                     const response = await fetch('', {
                         method: 'POST',
                         body: formData,
                         headers: {
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'X-CSRFToken': CyberGuardUtils.getCSRFToken()
+                            'X-Requested-With': 'XMLHttpRequest'
                         }
                     });
                     
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
+                    if (!response.ok) throw new Error('Network error');
                     
                     const html = await response.text();
-                    await this.processChatResponse(html, message);
+                    await this.processResponse(html, message);
                     
-                    // Clear input
                     textarea.value = '';
-                    this.handleTextareaInput({ target: textarea });
+                    textarea.style.height = 'auto';
                     
                 } catch (error) {
-                    console.error('Chat submission error:', error);
-                    
-                    // Remove typing indicator
-                    this.removeTypingIndicator();
-                    
-                    // Show error
-                    this.showErrorInChat('Connection error. Please try again.');
-                    this.showNotification('Network error', 'error');
-                    
+                    console.error('Error:', error);
+                    this.showNotification('Error sending message', 'error');
                 } finally {
-                    // Reset loading state
                     this.isSubmitting = false;
-                    submitBtn.innerHTML = originalBtnHTML;
-                    submitBtn.classList.remove('loading');
-                    
-                    // Restore theme
-                    this.applyTheme(this.currentTheme, false);
+                    submitBtn.innerHTML = originalHTML;
+                    this.removeTyping();
                 }
             }
 
-            handleTextareaKeydown(e) {
-                const textarea = e.target;
+            async processResponse(html, userMessage) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
                 
-                // Enter to submit (without Shift)
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    if (textarea.value.trim()) {
-                        textarea.form.dispatchEvent(new Event('submit', { bubbles: true }));
-                    }
-                }
+                const chatArea = document.getElementById('chatArea');
+                const botResponses = doc.querySelectorAll('.terminal-message .prompt-output');
+                const lastResponse = botResponses[botResponses.length - 1];
                 
-                // Arrow keys for command history
-                if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-                    e.preventDefault();
-                    this.navigateCommandHistory(e.key);
-                }
-            }
-
-            handleTextareaInput(e) {
-                const textarea = e.target;
-                textarea.style.height = 'auto';
+                if (!chatArea) return;
                 
-                const maxHeight = 120;
-                const newHeight = Math.min(textarea.scrollHeight, maxHeight);
-                textarea.style.height = newHeight + 'px';
-                textarea.style.overflowY = newHeight >= maxHeight ? 'auto' : 'hidden';
+                this.removeTyping();
                 
-                // Adjust wrapper
-                const wrapper = textarea.closest('.input-wrapper');
-                if (wrapper) {
-                    wrapper.style.minHeight = (newHeight + 20) + 'px';
-                }
-            }
-
-            // ============================================
-            // CHAT RESPONSE PROCESSING
-            // ============================================
-            async processChatResponse(html, userMessage) {
-                try {
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, 'text/html');
-                    
-                    // Find bot responses
-                    const botResponses = doc.querySelectorAll('.terminal-message .prompt-output');
-                    const lastBotResponse = botResponses[botResponses.length - 1];
-                    
-                    const chatArea = document.getElementById('chatArea');
-                    if (!chatArea) return;
-                    
-                    // Remove typing indicator
-                    this.removeTypingIndicator();
-                    
-                    // Add user message if not already present
-                    if (userMessage && !this.messageExists(userMessage)) {
-                        const userMessageDiv = this.createUserMessage(userMessage);
-                        chatArea.appendChild(userMessageDiv);
-                    }
-                    
-                    // Add bot response
-                    if (lastBotResponse) {
-                        const botMessageDiv = this.createBotMessage(lastBotResponse.innerHTML);
-                        chatArea.appendChild(botMessageDiv);
-                        
-                        // Apply syntax highlighting
-                        setTimeout(() => this.highlightCodeBlocks(), 100);
-                    }
-                    
-                    // Update UI
-                    this.updateMessageCount();
-                    this.scrollToBottom();
-                    this.updateResponseTime();
-                    
-                } catch (error) {
-                    console.error('Error processing response:', error);
-                    throw error;
-                }
-            }
-
-            messageExists(message) {
-                const existingMessages = document.querySelectorAll('.prompt-text');
-                for (const msg of existingMessages) {
-                    if (msg.textContent.trim() === message.trim()) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            createUserMessage(message) {
-                const div = document.createElement('div');
-                div.className = 'terminal-message';
-                
-                const promptText = document.createElement('div');
-                promptText.className = 'prompt-text';
-                promptText.textContent = CyberGuardUtils.escapeHtml(message);
-                
-                div.innerHTML = `
+                // Add user message
+                const userDiv = document.createElement('div');
+                userDiv.className = 'terminal-message';
+                userDiv.innerHTML = `
                     <div class="prompt-line">
                         <span class="prompt-symbol prompt-user">></span>
+                        <div class="prompt-text">${this.escapeHtml(userMessage)}</div>
                     </div>
                 `;
+                chatArea.appendChild(userDiv);
                 
-                div.querySelector('.prompt-line').appendChild(promptText);
-                return div;
-            }
-
-            createBotMessage(content) {
-                const div = document.createElement('div');
-                div.className = 'terminal-message';
-                div.innerHTML = `
-                    <div class="prompt-line">
-                        <span class="prompt-symbol prompt-bot">$</span>
-                        <div class="prompt-text">RESPONSE GENERATED</div>
-                    </div>
-                    <div class="prompt-output message-content">
-                        ${content}
-                    </div>
-                `;
-                return div;
-            }
-
-            // ============================================
-            // COMMAND HISTORY
-            // ============================================
-            loadCommandHistory() {
-                try {
-                    this.commandHistory = CyberGuardUtils.safeLocalStorageGet('cyberguard_history') || [];
-                } catch (error) {
-                    this.commandHistory = [];
-                }
-            }
-
-            saveToCommandHistory(command) {
-                // Avoid duplicates
-                if (this.commandHistory[this.commandHistory.length - 1] !== command) {
-                    this.commandHistory.push(command);
-                    
-                    // Keep only last 50 commands
-                    if (this.commandHistory.length > 50) {
-                        this.commandHistory = this.commandHistory.slice(-50);
-                    }
-                    
-                    // Save to storage
-                    CyberGuardUtils.safeLocalStorageSet('cyberguard_history', this.commandHistory);
+                // Add bot response
+                if (lastResponse) {
+                    const botDiv = document.createElement('div');
+                    botDiv.className = 'terminal-message';
+                    botDiv.innerHTML = `
+                        <div class="prompt-line">
+                            <span class="prompt-symbol prompt-bot">$</span>
+                            <div class="prompt-text">RESPONSE</div>
+                        </div>
+                        <div class="prompt-output message-content">
+                            ${lastResponse.innerHTML}
+                        </div>
+                    `;
+                    chatArea.appendChild(botDiv);
                 }
                 
-                // Reset history index
-                this.historyIndex = -1;
+                this.updateMessageCount();
+                this.scrollToBottom();
             }
 
-            navigateCommandHistory(key) {
-                const textarea = document.getElementById('userInput');
-                if (!textarea || this.commandHistory.length === 0) return;
+            startTimers() {
+                this.updateTime();
+                setInterval(() => this.updateTime(), 1000);
                 
-                if (key === 'ArrowUp') {
-                    if (this.historyIndex < this.commandHistory.length - 1) {
-                        this.historyIndex++;
-                        textarea.value = this.commandHistory[this.commandHistory.length - 1 - this.historyIndex];
-                    }
-                } else if (key === 'ArrowDown') {
-                    if (this.historyIndex > 0) {
-                        this.historyIndex--;
-                        textarea.value = this.commandHistory[this.commandHistory.length - 1 - this.historyIndex];
-                    } else {
-                        this.historyIndex = -1;
-                        textarea.value = '';
-                    }
-                }
-                
-                // Trigger resize
-                textarea.dispatchEvent(new Event('input'));
-                textarea.focus();
+                setInterval(() => {
+                    const times = ['12ms', '24ms', '36ms', '48ms'];
+                    const time = document.getElementById('responseTime');
+                    if (time) time.textContent = times[Math.floor(Math.random() * times.length)];
+                }, 5000);
             }
 
-            // ============================================
-            // UI UPDATES
-            // ============================================
             updateTime() {
                 const now = new Date();
                 const timeStr = now.toLocaleTimeString('en-US', { 
                     hour12: false,
                     hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit'
-                });
-                const dateStr = now.toLocaleDateString('en-US', {
-                    weekday: 'short',
-                    month: 'short',
-                    day: 'numeric'
+                    minute: '2-digit'
                 });
                 
                 const timeElement = document.getElementById('currentTime');
                 if (timeElement) {
-                    timeElement.textContent = `${dateStr} ${timeStr}`;
+                    timeElement.textContent = timeStr;
                 }
             }
 
             updateMessageCount() {
                 const messages = document.querySelectorAll('.terminal-message');
-                const count = Math.max(0, messages.length - 2); // Subtract system messages
+                const count = Math.max(0, messages.length - 2);
                 
                 const countElement = document.getElementById('messageCount');
                 if (countElement) {
@@ -1746,81 +1241,11 @@
                 }
             }
 
-            simulateLatency() {
-                const latencies = ['12ms', '24ms', '36ms', '48ms', '52ms'];
-                const randomLatency = latencies[Math.floor(Math.random() * latencies.length)];
-                
-                const latencyElement = document.getElementById('responseTime');
-                if (latencyElement) {
-                    latencyElement.textContent = randomLatency;
-                }
-            }
-
-            updateResponseTime() {
-                const latencies = ['12ms', '18ms', '24ms', '30ms', '36ms'];
-                const randomLatency = latencies[Math.floor(Math.random() * latencies.length)];
-                
-                const latencyElement = document.getElementById('responseTime');
-                if (latencyElement) {
-                    latencyElement.textContent = randomLatency;
-                    latencyElement.style.animation = 'none';
-                    setTimeout(() => {
-                        latencyElement.style.animation = 'pulse 1s';
-                    }, 10);
-                }
-            }
-
-            updateLiveStatus() {
-                const statuses = ['Secure', 'Protected', 'Encrypted', 'Monitoring', 'Active'];
-                const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
-                
-                const statusElement = document.getElementById('liveStatus');
-                if (statusElement) {
-                    statusElement.textContent = randomStatus;
-                }
-            }
-
-            updateConnectionAnimation() {
-                const status = document.getElementById('connectionStatus');
-                if (status && status.textContent === 'ONLINE') {
-                    status.style.textShadow = '0 0 10px var(--cyber-green)';
-                    setTimeout(() => {
-                        status.style.textShadow = 'none';
-                    }, 500);
-                }
-            }
-
-            adjustInputPadding() {
-                const prompt = document.querySelector('.console-prompt');
-                const input = document.querySelector('.console-input');
-                
-                if (prompt && input) {
-                    const promptWidth = prompt.offsetWidth;
-                    input.style.paddingLeft = (promptWidth + 20) + 'px';
-                }
-            }
-
-            scrollToBottom() {
-                const chatArea = document.getElementById('chatArea');
-                if (chatArea) {
-                    requestAnimationFrame(() => {
-                        chatArea.scrollTo({
-                            top: chatArea.scrollHeight,
-                            behavior: 'smooth'
-                        });
-                    });
-                }
-            }
-
-            // ============================================
-            // CHAT FUNCTIONS
-            // ============================================
-            showTypingIndicator() {
+            showTyping() {
                 const chatArea = document.getElementById('chatArea');
                 if (!chatArea) return;
                 
-                // Remove existing
-                this.removeTypingIndicator();
+                this.removeTyping();
                 
                 const typingDiv = document.createElement('div');
                 typingDiv.id = 'typingIndicator';
@@ -1829,7 +1254,7 @@
                     <div class="prompt-line">
                         <span class="prompt-symbol prompt-bot">$</span>
                         <div class="prompt-text">
-                            <span class="code-keyword">ANALYZING THREAT PATTERN</span>
+                            <span style="color: var(--cyber-blue)">ANALYZING...</span>
                             <div class="typing-indicator">
                                 <div class="typing-dot"></div>
                                 <div class="typing-dot"></div>
@@ -1842,66 +1267,58 @@
                 chatArea.appendChild(typingDiv);
                 this.scrollToBottom();
                 
-                // Auto-remove after 10 seconds (safety)
-                setTimeout(() => this.removeTypingIndicator(), 10000);
+                setTimeout(() => this.removeTyping(), 10000);
             }
 
-            removeTypingIndicator() {
-                const typingIndicator = document.getElementById('typingIndicator');
-                if (typingIndicator && typingIndicator.parentNode) {
-                    typingIndicator.remove();
+            removeTyping() {
+                const indicator = document.getElementById('typingIndicator');
+                if (indicator) indicator.remove();
+            }
+
+            scrollToBottom() {
+                const chatArea = document.getElementById('chatArea');
+                if (chatArea) {
+                    setTimeout(() => {
+                        chatArea.scrollTop = chatArea.scrollHeight;
+                    }, 100);
                 }
             }
 
-            showErrorInChat(errorMessage) {
-                const chatArea = document.getElementById('chatArea');
-                if (!chatArea) return;
-                
-                const errorDiv = document.createElement('div');
-                errorDiv.className = 'terminal-message error-message';
-                errorDiv.innerHTML = `
-                    <div class="prompt-line">
-                        <span class="prompt-symbol" style="color: var(--cyber-red);">!</span>
-                        <div class="prompt-text" style="color: var(--cyber-red);">SYSTEM ERROR</div>
-                    </div>
-                    <div class="prompt-output" style="color: var(--cyber-red);">
-                        ${CyberGuardUtils.escapeHtml(errorMessage)}<br>
-                        <em>Please check your connection and try again.</em>
-                    </div>
-                `;
-                
-                chatArea.appendChild(errorDiv);
-                this.scrollToBottom();
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
             }
 
-            highlightCodeBlocks() {
-                const codeBlocks = document.querySelectorAll('.code-block');
+            showNotification(message, type = 'info') {
+                const existing = document.querySelector('.mobile-notification');
+                if (existing) existing.remove();
                 
-                codeBlocks.forEach(block => {
-                    const code = block.textContent;
-                    
-                    let highlighted = code
-                        .replace(/\b(def|class|import|from|if|else|for|while|return|try|except|with)\b/g, 
-                            '<span class="code-keyword">$1</span>')
-                        .replace(/(".*?"|'.*?')/g, 
-                            '<span class="code-string">$1</span>')
-                        .replace(/#.*$/gm, 
-                            '<span class="code-comment">$&</span>');
-                    
-                    block.innerHTML = highlighted;
-                });
+                const notification = document.createElement('div');
+                notification.className = 'mobile-notification';
+                notification.textContent = message;
+                
+                if (type === 'error') {
+                    notification.style.borderColor = 'var(--cyber-red)';
+                    notification.style.color = 'var(--cyber-red)';
+                }
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    notification.style.transform = 'translateY(-20px)';
+                    setTimeout(() => notification.remove(), 300);
+                }, 2000);
             }
 
-            // ============================================
-            // PUBLIC FUNCTIONS (exposed to window)
-            // ============================================
-            insertCommand(command) {
+            // Public methods
+            insertCommand(cmd) {
                 const textarea = document.getElementById('userInput');
                 if (textarea) {
-                    textarea.value = command;
+                    textarea.value = cmd;
                     textarea.focus();
                     textarea.dispatchEvent(new Event('input'));
-                    this.showNotification('Command inserted');
                 }
             }
 
@@ -1910,32 +1327,19 @@
                 if (textarea) {
                     textarea.value = '';
                     textarea.style.height = 'auto';
-                    
-                    const wrapper = textarea.closest('.input-wrapper');
-                    if (wrapper) {
-                        wrapper.style.minHeight = '60px';
-                    }
-                    
-                    this.historyIndex = -1;
                 }
             }
 
             clearChat() {
-                if (confirm('Clear all chat messages? This will keep only system messages.')) {
+                if (confirm('Clear all chat messages?')) {
                     const chatArea = document.getElementById('chatArea');
                     if (chatArea) {
                         const messages = chatArea.querySelectorAll('.terminal-message');
                         messages.forEach((msg, index) => {
                             if (index > 1) msg.remove();
                         });
-                        
                         this.updateMessageCount();
-                        this.scrollToBottom();
-                        this.showNotification('Chat cleared successfully');
-                        
-                        // Clear command history
-                        this.commandHistory = [];
-                        CyberGuardUtils.safeLocalStorageSet('cyberguard_history', []);
+                        this.showNotification('Chat cleared');
                     }
                 }
             }
@@ -1943,151 +1347,44 @@
             exportChat() {
                 try {
                     const messages = document.querySelectorAll('.prompt-text, .prompt-output');
-                    let exportText = '=== CYBERGUARDAI CHAT EXPORT ===\n';
-                    exportText += `Export Time: ${new Date().toLocaleString()}\n`;
-                    exportText += `Theme: ${this.currentTheme}\n`;
-                    exportText += '='.repeat(50) + '\n\n';
+                    let text = '=== CYBERGUARDAI CHAT ===\n';
+                    text += `Export: ${new Date().toLocaleString()}\n\n`;
                     
-                    messages.forEach((msg, index) => {
-                        const isUser = msg.closest('.prompt-line') && 
-                                      msg.closest('.prompt-line').querySelector('.prompt-user');
-                        const prefix = isUser ? '[USER]' : '[CYBERGUARDAI]';
+                    messages.forEach(msg => {
                         const content = msg.textContent.trim();
-                        
-                        // Skip system messages
-                        if (content && 
-                            !content.includes('INITIALIZING') && 
-                            !content.includes('Welcome to') &&
-                            !content.includes('ANALYZING THREAT PATTERN') &&
-                            !content.includes('RESPONSE GENERATED')) {
-                            exportText += `${prefix}\n${content}\n\n`;
+                        if (content && !content.includes('SYSTEM') && !content.includes('Welcome')) {
+                            const prefix = msg.closest('.prompt-user') ? '[USER]' : '[AI]';
+                            text += `${prefix}\n${content}\n\n`;
                         }
                     });
                     
-                    const blob = new Blob([exportText], { type: 'text/plain;charset=utf-8' });
+                    const blob = new Blob([text], { type: 'text/plain' });
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = `cyberguardai-chat-${new Date().toISOString().split('T')[0]}.txt`;
-                    document.body.appendChild(a);
+                    a.download = `chat-${new Date().toISOString().slice(0,10)}.txt`;
                     a.click();
-                    document.body.removeChild(a);
                     URL.revokeObjectURL(url);
                     
-                    this.showNotification('Chat exported successfully!');
+                    this.showNotification('Chat exported');
                     
-                } catch (error) {
-                    console.error('Export error:', error);
+                } catch (e) {
                     this.showNotification('Export failed', 'error');
                 }
             }
-
-            toggleFullscreen() {
-                const elem = document.documentElement;
-                
-                if (!document.fullscreenElement) {
-                    if (elem.requestFullscreen) {
-                        elem.requestFullscreen();
-                    } else if (elem.webkitRequestFullscreen) {
-                        elem.webkitRequestFullscreen();
-                    } else if (elem.msRequestFullscreen) {
-                        elem.msRequestFullscreen();
-                    }
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    } else if (document.webkitExitFullscreen) {
-                        document.webkitExitFullscreen();
-                    } else if (document.msExitFullscreen) {
-                        document.msExitFullscreen();
-                    }
-                }
-            }
-
-            showHelp() {
-                this.insertCommand('What cybersecurity topics can you help me with?');
-            }
-
-            // ============================================
-            // NOTIFICATION SYSTEM
-            // ============================================
-            showNotification(message, type = 'info') {
-                // Remove existing
-                const existing = document.querySelector('.cyber-notification');
-                if (existing) existing.remove();
-                
-                // Set colors
-                let bgColor, borderColor, textColor;
-                
-                switch(type) {
-                    case 'error':
-                        bgColor = 'rgba(255, 0, 60, 0.1)';
-                        borderColor = 'var(--cyber-red)';
-                        textColor = 'var(--cyber-red)';
-                        break;
-                    case 'success':
-                        bgColor = 'rgba(0, 255, 136, 0.1)';
-                        borderColor = 'var(--cyber-green)';
-                        textColor = 'var(--cyber-green)';
-                        break;
-                    case 'warning':
-                        bgColor = 'rgba(255, 221, 0, 0.1)';
-                        borderColor = 'var(--cyber-yellow)';
-                        textColor = 'var(--cyber-yellow)';
-                        break;
-                    default:
-                        bgColor = 'rgba(0, 243, 255, 0.1)';
-                        borderColor = 'var(--cyber-blue)';
-                        textColor = 'var(--cyber-blue)';
-                }
-                
-                // Create notification
-                const notification = document.createElement('div');
-                notification.className = 'cyber-notification';
-                notification.style.cssText = `
-                    background: ${bgColor};
-                    border: 1px solid ${borderColor};
-                    color: ${textColor};
-                `;
-                notification.textContent = message;
-                
-                document.body.appendChild(notification);
-                
-                // Auto-remove
-                setTimeout(() => {
-                    notification.style.animation = 'notificationSlideOut 0.3s ease';
-                    setTimeout(() => {
-                        if (notification.parentNode) {
-                            notification.remove();
-                        }
-                    }, 300);
-                }, 3000);
-            }
         }
 
-        // ============================================
-        // INITIALIZATION
-        // ============================================
-        let cyberGuardApp;
-
+        // Initialize app
+        let app;
         document.addEventListener('DOMContentLoaded', () => {
-            cyberGuardApp = new CyberGuardAI();
+            app = new CyberGuardMobile();
             
-            // Expose methods to global scope
-            window.insertCommand = (cmd) => cyberGuardApp.insertCommand(cmd);
-            window.clearConsole = () => cyberGuardApp.clearConsole();
-            window.clearChat = () => cyberGuardApp.clearChat();
-            window.exportChat = () => cyberGuardApp.exportChat();
-            window.toggleFullscreen = () => cyberGuardApp.toggleFullscreen();
-            window.showHelp = () => cyberGuardApp.showHelp();
+            // Expose methods
+            window.insertCommand = (cmd) => app.insertCommand(cmd);
+            window.clearConsole = () => app.clearConsole();
+            window.clearChat = () => app.clearChat();
+            window.exportChat = () => app.exportChat();
         });
-
-        // Handle AJAX response from Django
-        window.handleAjaxResponse = function(response) {
-            if (cyberGuardApp) {
-                // You can add custom AJAX handling here if needed
-            }
-        };
     </script>
 </body>
 </html>
