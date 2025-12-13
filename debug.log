@@ -1,0 +1,12 @@
+
+==================================================
+Time: nt.times_result(user=0.625, system=0.296875, children_user=0.0, children_system=0.0, elapsed=0.0)
+Method: GET
+Path: /
+
+==================================================
+Time: nt.times_result(user=0.953125, system=1.09375, children_user=0.0, children_system=0.0, elapsed=0.0)
+Method: POST
+Path: /
+POST Data: {'csrfmiddlewaretoken': ['ZrEpmScK88H1IsH1UUxxQtcbPitU0t6BUROQk4wzbqyxprWVWEJLDTJeSxBeTl2Z'], 'user_input': ['halo']}
+User Input: halo

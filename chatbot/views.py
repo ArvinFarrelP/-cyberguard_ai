@@ -187,117 +187,56 @@
 #     return render(request, "chatbot/index.html", context)
 
 # chatbot/views.py - FIXED (Remove AJAX)
+# chatbot/views.py - ULTRA SIMPLE
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import HttpResponse
 import os
-import json
-import time
-
-# ============================================
-# SIMPLE FALLBACK AI SYSTEM (NO GEMINI NEEDED)
-# ============================================
-
-
-class SimpleCyberAI:
-    def __init__(self):
-        self.responses = {
-            'phishing': "🔍 **Cara Deteksi Phishing Email:** ...",
-            'password': "🔐 **Password Security:** ...",
-            'firewall': "🛡️ **Firewall Configuration:** ...",
-            'malware': "🦠 **Malware Removal:** ...",
-            'ransomware': "💀 **Ransomware Protection:** ...",
-            'wifi': "📡 **Public WiFi Security:** ...",
-            'backup': "💾 **Data Backup Strategy:** ...",
-            'encryption': "🔒 **Data Encryption:** ...",
-            'social': "👥 **Social Engineering Defense:** ..."
-        }
-
-    def get_response(self, question):
-        if not question:
-            return "Silakan tanyakan tentang cybersecurity..."
-
-        question_lower = question.lower()
-
-        # Check for keywords
-        for keyword, response in self.responses.items():
-            if keyword in question_lower:
-                return response
-
-        # Smart keyword detection
-        if any(word in question_lower for word in ['email', 'phish', 'spoof']):
-            return self.responses['phishing']
-        elif any(word in question_lower for word in ['password', 'login', 'auth']):
-            return self.responses['password']
-        elif any(word in question_lower for word in ['firewall', 'network', 'port']):
-            return self.responses['firewall']
-        elif any(word in question_lower for word in ['virus', 'malware', 'trojan']):
-            return self.responses['malware']
-
-        # Default response
-        return f"""
-        🤖 **CyberGuardAI Response**
-        
-        **Pertanyaan**: "{question}"
-        
-        **Saran Keamanan**:
-        1. Update software rutin
-        2. Gunakan password manager + 2FA
-        3. Backup data 3-2-1
-        4. Waspada social engineering
-        
-        💡 Coba tanyakan: phishing, password, firewall, malware
-        """
-
-
-# Initialize AI system
-ai_system = SimpleCyberAI()
-
-# ============================================
-# VIEW FUNCTION - SIMPLE FIX
-# ============================================
 
 
 def chatbot_view(request):
-    """Main chat view - SIMPLE VERSION"""
+    """Super simple view untuk debug"""
 
-    context = {}
+    print("=" * 50)
+    print(f"DEBUG: View dipanggil - Method: {request.method}")
+    print(f"DEBUG: Headers: {dict(request.headers)}")
+    print("=" * 50)
 
-    # Debug info
-    print(f"=== Django View: {request.method} ===")
+    # Buat file log untuk debug
+    with open('debug.log', 'a') as f:
+        f.write(f"\n{'='*50}\n")
+        f.write(f"Time: {os.times()}\n")
+        f.write(f"Method: {request.method}\n")
+        f.write(f"Path: {request.path}\n")
 
     if request.method == "POST":
-        user_input = request.POST.get("user_input", "").strip()
-        print(f"POST Data: user_input='{user_input}'")
+        user_input = request.POST.get("user_input", "NO_INPUT")
 
-        if not user_input:
-            context['error'] = "⚠️ Please enter a message"
-        else:
-            try:
-                # Get response from AI
-                bot_reply = ai_system.get_response(user_input)
+        with open('debug.log', 'a') as f:
+            f.write(f"POST Data: {dict(request.POST)}\n")
+            f.write(f"User Input: {user_input}\n")
 
-                # Store in context - INI YANG PENTING!
-                context['user_input'] = user_input
-                context['bot_reply'] = bot_reply
+        print(f"DEBUG POST: user_input = '{user_input}'")
+        print(f"DEBUG POST: semua data = {dict(request.POST)}")
 
-                print(f"Bot reply generated: {len(bot_reply)} chars")
+        # SIMPLE RESPONSE
+        bot_reply = f"""
+        🎉 **TEST BERHASIL!**
+        
+        **Input kamu**: "{user_input}"
+        
+        **Debug Info**:
+        - Method: {request.method}
+        - Input diterima: YA
+        - Panjang: {len(user_input)} karakter
+        
+        Server berjalan dengan baik! 🚀
+        """
 
-            except Exception as e:
-                error_msg = f"System error: {str(e)}"
-                context['error'] = error_msg
-                print(f"Error: {error_msg}")
+        return render(request, "chatbot/index.html", {
+            'user_input': user_input,
+            'bot_reply': bot_reply,
+            'debug': True
+        })
 
-    # SELALU render template dengan context
-    return render(request, "chatbot/index.html", context)
-
-# ============================================
-# HEALTH CHECK
-# ============================================
-
-
-def health_check(request):
-    return JsonResponse({
-        'status': 'healthy',
-        'service': 'CyberGuardAI',
-        'timestamp': time.time()
-    })
+    # GET request
+    return render(request, "chatbot/index.html", {'debug': True})
