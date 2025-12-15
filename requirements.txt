@@ -1,8 +1,11 @@
-Django>=5.2,<6.0
-gunicorn
-python-dotenv
-dj-database-url
-whitenoise
+Django>=5.0,<6.0
+gunicorn==21.2.0
+whitenoise==6.6.0
+python-dotenv==1.0.0
+dj-database-url==2.1.0
 
-# Google Gemini / Generative AI
-google-generativeai
+# Google Gemini AI
+google-generativeai==0.3.2
+
+# Optional: untuk request handling
+requests==2.31.0

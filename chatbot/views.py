@@ -1,242 +1,175 @@
-# # from django.shortcuts import render, redirect
-# # from django.contrib import messages
-# # from .ai.gemini_client import ask_gemini
-
-
-# # def chatbot_view(request):
-# #     context = {}
-
-# #     if request.method == "POST":
-# #         user_input = request.POST.get("user_input", "").strip()
-
-# #         if not user_input:
-# #             messages.error(request, "Masukkan pertanyaan terlebih dahulu!")
-# #         elif len(user_input) > 1000:
-# #             messages.error(request, "Pertanyaan terlalu panjang!")
-# #         else:
-# #             try:
-# #                 bot_reply = ask_gemini(user_input)
-# #                 context['user_input'] = user_input
-# #                 context['bot_reply'] = bot_reply
-# #             except Exception as e:
-# #                 messages.error(request, f"Terjadi kesalahan: {str(e)}")
-
-# #     return render(request, "chatbot/index.html", context)
-
-# # chatbot/views.py (COMPLETE SYSTEM FOR UAS)
-# from django.shortcuts import render
-# import google.generativeai as genai
-# import hashlib
-# import json
-# import os
-# import time
-
-
-# class CyberGuardAISystem:
-#     def __init__(self):
-#         self.api_key = "AIzaSyBNriuMvmemLME4xRkqJXJx0yXy2S-bgVU"
-#         self.cache_file = 'chatbot_cache.json'
-#         self.cache = self.load_cache()
-#         self.free_models = [
-#             'gemini-2.0-flash-lite',  # Paling hemat
-#             'gemini-2.0-flash',       # Alternatif
-#             'gemma-3-4b-it',          # Open source
-#         ]
-
-#     def load_cache(self):
-#         """Load cached responses"""
-#         if os.path.exists(self.cache_file):
-#             try:
-#                 with open(self.cache_file, 'r', encoding='utf-8') as f:
-#                     return json.load(f)
-#             except:
-#                 return {}
-#         return {}
-
-#     def save_cache(self):
-#         """Save cache to file"""
-#         with open(self.cache_file, 'w', encoding='utf-8') as f:
-#             json.dump(self.cache, f, indent=2, ensure_ascii=False)
-
-#     def get_cache_key(self, question):
-#         """Generate cache key from question"""
-#         return hashlib.md5(question.lower().encode()).hexdigest()[:12]
-
-#     def get_cached_response(self, question):
-#         """Get response from cache"""
-#         key = self.get_cache_key(question)
-#         return self.cache.get(key)
-
-#     def cache_response(self, question, answer):
-#         """Cache the response"""
-#         key = self.get_cache_key(question)
-#         self.cache[key] = {
-#             'answer': answer,
-#             'timestamp': time.time(),
-#             'model': 'gemini-2.0-flash-lite'
-#         }
-#         self.save_cache()
-
-#     def get_api_response(self, question):
-#         """Try to get response from Gemini API"""
-#         for model_name in self.free_models:
-#             try:
-#                 print(f"Mencoba model: {model_name}")
-
-#                 # Configure
-#                 genai.configure(api_key=self.api_key)
-
-#                 # Create model
-#                 model = genai.GenerativeModel(model_name)
-
-#                 # Generate (hemat token)
-#                 response = model.generate_content(
-#                     f"Sebagai ahli keamanan siber, jawab singkat: {question}",
-#                     generation_config={
-#                         'temperature': 0.7,
-#                         'max_output_tokens': 250,  # Hemat token
-#                     }
-#                 )
-
-#                 if response.text:
-#                     # Cache the response untuk next time
-#                     self.cache_response(question, response.text)
-#                     return response.text
-
-#             except Exception as e:
-#                 error_msg = str(e)
-#                 if "quota" in error_msg or "429" in error_msg:
-#                     print(f"Quota habis untuk {model_name}")
-#                     time.sleep(1)  # Tunggu sebentar
-#                     continue
-#                 else:
-#                     print(f"Error: {error_msg[:100]}")
-
-#         return None  # Semua model gagal
-
-#     def get_fallback_response(self, question):
-#         """Fallback jika API tidak bisa"""
-#         fallbacks = {
-#             'phishing': "Phishing: Jangan klik link email tak dikenal. Verifikasi pengirim.",
-#             'password': "Password: Minimal 12 karakter, campuran huruf, angka, simbol.",
-#             'malware': "Malware: Install antivirus, update software, backup data rutin.",
-#             'hacker': "Hacker: Gunakan firewall, VPN, dan autentikasi dua faktor.",
-#             'firewall': "Firewall: Aktifkan di router dan komputer untuk proteksi jaringan.",
-#             'ransomware': "Ransomware: Backup data 3-2-1 (3 copy, 2 media, 1 offsite).",
-#             'virus': "Virus: Scan reguler, hati-hati dengan USB, gunakan sandboxing.",
-#             'email': "Email keamanan: Verifikasi pengirim, jangan buka lampiran mencurigakan.",
-#             'wifi': "WiFi publik: Gunakan VPN, hindari transaksi sensitif.",
-#             'backup': "Backup: Rutin lakukan backup, simpan di cloud dan external drive.",
-#         }
-
-#         question_lower = question.lower()
-#         for keyword, answer in fallbacks.items():
-#             if keyword in question_lower:
-#                 return f"🔒 {answer}"
-
-#         # Default response
-#         return f"""🤖 **CyberGuardAI**
-
-# Untuk pertanyaan "{question}", praktik keamanan siber terbaik:
-# 1. **Update rutin** software & sistem
-# 2. **Password kuat** dengan 2FA
-# 3. **Backup data** secara berkala
-# 4. **Waspada** terhadap social engineering
-
-# 💡 *Tetap aman di dunia digital!*"""
-
-#     def ask(self, question):
-#         """Main method to get response"""
-#         if not question:
-#             return "Silakan tanyakan tentang keamanan siber."
-
-#         # 1. Cek cache dulu
-#         cached = self.get_cached_response(question)
-#         if cached:
-#             print("Menggunakan cached response")
-#             return cached.get('answer', '')
-
-#         # 2. Coba API
-#         print("Mencoba API...")
-#         api_response = self.get_api_response(question)
-#         if api_response:
-#             return api_response
-
-#         # 3. Fallback
-#         print("Menggunakan fallback response")
-#         return self.get_fallback_response(question)
-
-
-# # Global instance
-# chatbot_system = CyberGuardAISystem()
-
-
-# def chatbot_view(request):
-#     context = {}
-
-#     if request.method == "POST":
-#         user_input = request.POST.get("user_input", "").strip()
-
-#         if user_input:
-#             # Get response from system
-#             bot_reply = chatbot_system.ask(user_input)
-
-#             context['bot_reply'] = bot_reply
-#             context['user_input'] = user_input
-
-#     return render(request, "chatbot/index.html", context)
-
-# chatbot/views.py - FIXED (Remove AJAX)
-# chatbot/views.py - ULTRA SIMPLE
-from django.shortcuts import render
-from django.http import HttpResponse
 import os
+import google.generativeai as genai
+import time
+from django.shortcuts import render, redirect
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+from django.views.decorators.http import require_POST
+
+# Configure Gemini API
+try:
+    # Gunakan environment variable dari settings.py
+    GEMINI_API_KEY = getattr(settings, 'GEMINI_API_KEY', '') or getattr(
+        settings, 'GOOGLE_API_KEY', '')
+
+    if GEMINI_API_KEY:
+        genai.configure(api_key=GEMINI_API_KEY)
+        print(
+            f"DEBUG: Gemini API configured. Key length: {len(GEMINI_API_KEY)}")
+    else:
+        print("DEBUG: WARNING - No API key found!")
+except Exception as e:
+    print(f"DEBUG: Error configuring Gemini: {str(e)}")
+
+
+def home_view(request):
+    """View utama untuk halaman chatbot"""
+    return render(request, 'chatbot/index.html')
+
+
+@require_POST
+def chat_api(request):
+    """API endpoint untuk menerima dan memproses pesan"""
+    try:
+        user_input = request.POST.get('user_input', '').strip()
+
+        if not user_input:
+            return JsonResponse({
+                'success': False,
+                'error': 'Pesan tidak boleh kosong'
+            })
+
+        print(f"DEBUG: Received message: '{user_input}'")
+
+        # Cek API key
+        GEMINI_API_KEY = getattr(settings, 'GEMINI_API_KEY', '') or getattr(
+            settings, 'GOOGLE_API_KEY', '')
+
+        if not GEMINI_API_KEY:
+            error_msg = "ERROR: API Key tidak ditemukan. Pastikan GEMINI_API_KEY sudah diatur di Railway Variables."
+            print(error_msg)
+            return JsonResponse({
+                'success': False,
+                'error': error_msg,
+                'bot_reply': error_msg
+            })
+
+        try:
+            # Gunakan model Gemini yang stabil
+            model = genai.GenerativeModel('gemini-1.5-flash-latest')
+
+            # Tambahkan konteks cybersecurity
+            prompt = f"""Anda adalah CyberGuardAI, asisten keamanan siber profesional. 
+            Berikan jawaban yang jelas, praktis, dan relevan untuk pertanyaan keamanan siber.
+            
+            Pertanyaan: {user_input}
+            
+            Jawab dengan format:
+            1. Analisis singkat
+            2. Solusi/langkah-langkah
+            3. Tips pencegahan
+            4. Sumber/referensi jika diperlukan
+            
+            Gunakan bahasa yang mudah dipahami."""
+
+            start_time = time.time()
+            response = model.generate_content(prompt)
+            elapsed_time = int((time.time() - start_time) * 1000)
+
+            bot_reply = response.text if response.text else "Maaf, saya tidak dapat memproses permintaan Anda saat ini."
+
+            print(f"DEBUG: Gemini response received in {elapsed_time}ms")
+
+            return JsonResponse({
+                'success': True,
+                'user_input': user_input,
+                'bot_reply': bot_reply,
+                'response_time': elapsed_time
+            })
+
+        except Exception as api_error:
+            error_msg = f"ERROR menghubungi AI: {str(api_error)}"
+            print(f"DEBUG: {error_msg}")
+            return JsonResponse({
+                'success': False,
+                'error': str(api_error),
+                'bot_reply': f"❌ Error menghubungi AI: {str(api_error)}"
+            })
+
+    except Exception as e:
+        error_msg = f"ERROR sistem: {str(e)}"
+        print(f"DEBUG: {error_msg}")
+        return JsonResponse({
+            'success': False,
+            'error': str(e),
+            'bot_reply': f"❌ Error sistem: {str(e)}"
+        })
 
 
 def chatbot_view(request):
-    """Super simple view untuk debug"""
+    """View untuk halaman chatbot (legacy support)"""
+    if request.method == 'POST':
+        try:
+            user_input = request.POST.get('user_input', '').strip()
 
-    print("=" * 50)
-    print(f"DEBUG: View dipanggil - Method: {request.method}")
-    print(f"DEBUG: Headers: {dict(request.headers)}")
-    print("=" * 50)
+            if not user_input:
+                return render(request, 'chatbot/index.html', {
+                    'error': 'Pesan tidak boleh kosong'
+                })
 
-    # Buat file log untuk debug
-    with open('debug.log', 'a') as f:
-        f.write(f"\n{'='*50}\n")
-        f.write(f"Time: {os.times()}\n")
-        f.write(f"Method: {request.method}\n")
-        f.write(f"Path: {request.path}\n")
+            print(f"DEBUG: Received message via POST: '{user_input}'")
 
-    if request.method == "POST":
-        user_input = request.POST.get("user_input", "NO_INPUT")
+            # Cek API key
+            GEMINI_API_KEY = getattr(settings, 'GEMINI_API_KEY', '') or getattr(
+                settings, 'GOOGLE_API_KEY', '')
 
-        with open('debug.log', 'a') as f:
-            f.write(f"POST Data: {dict(request.POST)}\n")
-            f.write(f"User Input: {user_input}\n")
+            if not GEMINI_API_KEY:
+                error_msg = "ERROR: API Key tidak ditemukan. Pastikan GEMINI_API_KEY sudah diatur di Railway Variables."
+                print(error_msg)
+                return render(request, 'chatbot/index.html', {
+                    'user_input': user_input,
+                    'bot_reply': error_msg,
+                    'error': error_msg
+                })
 
-        print(f"DEBUG POST: user_input = '{user_input}'")
-        print(f"DEBUG POST: semua data = {dict(request.POST)}")
+            try:
+                # Gunakan model Gemini
+                model = genai.GenerativeModel('gemini-1.5-flash-latest')
 
-        # SIMPLE RESPONSE
-        bot_reply = f"""
-        🎉 **TEST BERHASIL!**
-        
-        **Input kamu**: "{user_input}"
-        
-        **Debug Info**:
-        - Method: {request.method}
-        - Input diterima: YA
-        - Panjang: {len(user_input)} karakter
-        
-        Server berjalan dengan baik! 🚀
-        """
+                # Tambahkan konteks cybersecurity
+                prompt = f"""Anda adalah CyberGuardAI, asisten keamanan siber profesional. 
+                Berikan jawaban yang jelas, praktis, dan relevan untuk pertanyaan keamanan siber.
+                
+                Pertanyaan: {user_input}
+                
+                Jawab dengan format yang terstruktur dan mudah dibaca."""
 
-        return render(request, "chatbot/index.html", {
-            'user_input': user_input,
-            'bot_reply': bot_reply,
-            'debug': True
-        })
+                response = model.generate_content(prompt)
+                bot_reply = response.text if response.text else "Maaf, tidak ada respon dari AI."
+
+                return render(request, 'chatbot/index.html', {
+                    'user_input': user_input,
+                    'bot_reply': bot_reply,
+                    'success': True
+                })
+
+            except Exception as api_error:
+                error_msg = f"ERROR menghubungi AI: {str(api_error)}"
+                print(f"DEBUG: {error_msg}")
+                return render(request, 'chatbot/index.html', {
+                    'user_input': user_input,
+                    'bot_reply': f"❌ Error menghubungi AI: {str(api_error)}",
+                    'error': error_msg
+                })
+
+        except Exception as e:
+            error_msg = f"ERROR sistem: {str(e)}"
+            print(f"DEBUG: {error_msg}")
+            return render(request, 'chatbot/index.html', {
+                'error': error_msg,
+                'bot_reply': f"❌ Error sistem: {str(e)}"
+            })
 
     # GET request
-    return render(request, "chatbot/index.html", {'debug': True})
+    return render(request, 'chatbot/index.html')

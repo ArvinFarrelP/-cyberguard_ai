@@ -22,11 +22,46 @@ load_dotenv(BASE_DIR / ".env")
 # SECURITY
 # =========================
 
-SECRET_KEY = os.environ.get("SECRET_KEY", "dev-key-123")
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY", "dev-key-123-change-this-in-production")
 
-DEBUG = os.environ.get("DEBUG", "True") == "True"
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(",")
+# Railway domains
+RAILWAY_STATIC_URL = os.environ.get("RAILWAY_STATIC_URL", "")
+ALLOWED_HOSTS = []
+
+# Tambahkan domain Railway dan localhost
+if RAILWAY_STATIC_URL:
+    ALLOWED_HOSTS.append(RAILWAY_STATIC_URL)
+else:
+    # Untuk Railway, izinkan semua subdomain railway.app
+    ALLOWED_HOSTS.extend([
+        "*.railway.app",
+        "*.up.railway.app",
+        "localhost",
+        "127.0.0.1",
+        "[::1]",
+    ])
+
+# CSRF settings untuk Railway
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.railway.app",
+    "https://*.up.railway.app",
+]
+
+if RAILWAY_STATIC_URL:
+    CSRF_TRUSTED_ORIGINS.append(f"https://{RAILWAY_STATIC_URL}")
+
+# Security settings untuk production
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = 'DENY'
 
 # =========================
 # APPLICATIONS
@@ -68,7 +103,7 @@ ROOT_URLCONF = "cyberguardai.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],  # optional, aman
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -130,9 +165,9 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-STATICFILES_STORAGE = (
-    "whitenoise.storage.CompressedManifestStaticFilesStorage"
-)
+# Whitenoise configuration
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+WHITENOISE_USE_FINDERS = True
 
 # =========================
 # DEFAULT PRIMARY KEY
@@ -141,7 +176,39 @@ STATICFILES_STORAGE = (
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # =========================
-# API KEYS
+# API KEYS & CONFIGURATION
 # =========================
 
+# Gunakan GEMINI_API_KEY (lebih spesifik)
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
+# Backup: GOOGLE_API_KEY (untuk kompatibilitas)
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY", "")
+
+# Logging configuration untuk debug Railway
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'propagate': False,
+        },
+    },
+}
