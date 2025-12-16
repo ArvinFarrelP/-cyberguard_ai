@@ -29,7 +29,7 @@ DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 # Railway domains
 RAILWAY_STATIC_URL = os.environ.get("RAILWAY_STATIC_URL", "")
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Tambahkan domain Railway dan localhost
 if RAILWAY_STATIC_URL:
