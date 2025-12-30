@@ -10,3 +10,32 @@ Method: POST
 Path: /
 POST Data: {'csrfmiddlewaretoken': ['ZrEpmScK88H1IsH1UUxxQtcbPitU0t6BUROQk4wzbqyxprWVWEJLDTJeSxBeTl2Z'], 'user_input': ['halo']}
 User Input: halo
+
+==================================================
+Time: nt.times_result(user=2.796875, system=9.46875, children_user=0.0, children_system=0.0, elapsed=0.0)
+Method: GET
+Path: /
+
+==================================================
+Time: nt.times_result(user=3.15625, system=10.671875, children_user=0.0, children_system=0.0, elapsed=0.0)
+Method: POST
+Path: /
+POST Data: {'csrfmiddlewaretoken': ['588Q6KPrExfpF6nkxWv6eF2619lMo61w0yih4W9gHP6Vm5CezGHk15z94ot6hYXU'], 'user_input': ['hao']}
+User Input: hao
+
+==================================================
+Time: nt.times_result(user=0.546875, system=0.515625, children_user=0.0, children_system=0.0, elapsed=0.0)
+Method: GET
+Path: /
+
+==================================================
+Time: nt.times_result(user=0.546875, system=0.515625, children_user=0.0, children_system=0.0, elapsed=0.0)
+Method: GET
+Path: /
+
+==================================================
+Time: nt.times_result(user=0.796875, system=1.09375, children_user=0.0, children_system=0.0, elapsed=0.0)
+Method: POST
+Path: /
+POST Data: {'csrfmiddlewaretoken': ['CaCOAiX45bZ6aUfboivtnmQEJDTzeLdxxAMfyuhT8tQCRTu5q2HHaMnHMS1T7D9V'], 'user_input': ['halo']}
+User Input: halo

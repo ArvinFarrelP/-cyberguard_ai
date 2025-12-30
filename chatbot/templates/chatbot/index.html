@@ -375,10 +375,6 @@
             border-color: var(--cyber-blue);
         }
 
-        .console-prompt {
-            display: none;
-        }
-
         .console-input {
             width: 100%;
             padding: 12px 45px 12px 12px;
@@ -745,25 +741,8 @@
                 display: inline;
             }
             
-            .console-prompt {
-                display: block;
-                position: absolute;
-                left: 15px;
-                top: 50%;
-                transform: translateY(-50%);
-                color: var(--cyber-green);
-                font-family: 'JetBrains Mono', monospace;
-                font-weight: bold;
-                pointer-events: none;
-                white-space: nowrap;
-                font-size: 0.9rem;
-                z-index: 2;
-                background: rgba(10, 10, 15, 0.9);
-                padding: 0 5px;
-            }
-            
             .console-input {
-                padding-left: 100px;
+                padding-left: 15px;
                 padding-right: 110px;
             }
             
@@ -782,7 +761,7 @@
             
             .theme-selector {
                 position: static;
-                display: flex;
+                display: flex !important;
                 background: transparent;
                 border: none;
                 padding: 0;
@@ -813,6 +792,10 @@
                 flex: 0;
                 width: auto;
                 padding: 8px 15px;
+            }
+            
+            .theme-selector.show {
+                display: flex !important;
             }
         }
     </style>
@@ -950,12 +933,11 @@
             <form method="POST" id="chatForm">
                 {% csrf_token %}
                 <div class="input-wrapper">
-                    <div class="console-prompt">cyberguard@ai:~$</div>
                     <textarea 
                         name="user_input" 
                         class="console-input" 
                         id="userInput"
-                        placeholder="Type cybersecurity query..."
+                        placeholder="Type your cybersecurity query here..."
                         rows="1"
                         required></textarea>
                     <div class="console-buttons">
@@ -1012,12 +994,13 @@
         </div>
     </div>
 
-    <!-- Simplified JavaScript -->
+    <!-- JavaScript -->
     <script>
         class CyberGuardMobile {
             constructor() {
                 this.currentTheme = 'cyber';
                 this.isSubmitting = false;
+                this.messageCount = 0;
                 this.init();
             }
 
@@ -1026,6 +1009,7 @@
                 this.setupListeners();
                 this.startTimers();
                 this.scrollToBottom();
+                this.updateMessageCount();
                 
                 // Focus input on load
                 setTimeout(() => {
@@ -1047,17 +1031,23 @@
                 document.body.className = 'theme-' + theme;
                 this.currentTheme = theme;
                 
+                // Update active button
                 document.querySelectorAll('.theme-btn').forEach(btn => {
                     btn.classList.remove('active');
-                    if (btn.dataset.theme === theme) btn.classList.add('active');
+                    if (btn.dataset.theme === theme) {
+                        btn.classList.add('active');
+                    }
                 });
                 
+                // Save to localStorage
                 try {
                     localStorage.setItem('cyberguard_theme', theme);
-                } catch (e) {}
+                } catch (e) {
+                    // Silently fail if localStorage not available
+                }
                 
                 if (showNotification) {
-                    this.showNotification(`Theme: ${theme}`);
+                    this.showNotification(`Theme changed to: ${theme}`);
                 }
             }
 
@@ -1071,26 +1061,28 @@
                     });
                 });
 
-                // Mobile menu
+                // Mobile menu button
                 const menuBtn = document.getElementById('mobileMenuBtn');
                 if (menuBtn) {
                     menuBtn.addEventListener('click', () => this.toggleThemeSelector());
                 }
 
-                // Form
+                // Form submission
                 const form = document.getElementById('chatForm');
                 if (form) {
                     form.addEventListener('submit', (e) => this.handleSubmit(e));
                 }
 
-                // Textarea
+                // Textarea handling
                 const textarea = document.getElementById('userInput');
                 if (textarea) {
+                    // Auto-resize
                     textarea.addEventListener('input', (e) => {
                         e.target.style.height = 'auto';
                         e.target.style.height = Math.min(e.target.scrollHeight, 100) + 'px';
                     });
                     
+                    // Enter to submit, Shift+Enter for new line
                     textarea.addEventListener('keydown', (e) => {
                         if (e.key === 'Enter' && !e.shiftKey) {
                             e.preventDefault();
@@ -1109,6 +1101,17 @@
                         if (selector) selector.classList.remove('show');
                     }
                 });
+                
+                // Prevent form submission spam
+                const submitBtn = document.getElementById('submitBtn');
+                if (submitBtn) {
+                    submitBtn.addEventListener('click', (e) => {
+                        if (this.isSubmitting) {
+                            e.preventDefault();
+                            this.showNotification('Please wait...', 'error');
+                        }
+                    });
+                }
             }
 
             toggleThemeSelector() {
@@ -1120,100 +1123,80 @@
 
             async handleSubmit(e) {
                 e.preventDefault();
-                if (this.isSubmitting) return;
+                
+                if (this.isSubmitting) {
+                    this.showNotification('Please wait for previous response...', 'error');
+                    return;
+                }
                 
                 const textarea = document.getElementById('userInput');
                 const message = textarea.value.trim();
                 
-                if (!message) return;
+                if (!message) {
+                    this.showNotification('Please enter a message', 'error');
+                    return;
+                }
                 
                 this.isSubmitting = true;
                 const submitBtn = document.getElementById('submitBtn');
                 const originalHTML = submitBtn.innerHTML;
                 submitBtn.innerHTML = '<i class="fas fa-spinner loading-spinner"></i>';
+                submitBtn.disabled = true;
                 
                 try {
+                    // Show typing indicator
                     this.showTyping();
                     
-                    const formData = new FormData(e.target);
+                    // Create user message in chat
+                    this.addMessageToChat(message, 'user');
                     
-                    const response = await fetch('', {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    });
-                    
-                    if (!response.ok) throw new Error('Network error');
-                    
-                    const html = await response.text();
-                    await this.processResponse(html, message);
-                    
+                    // Clear input
                     textarea.value = '';
                     textarea.style.height = 'auto';
                     
+                    // Simulate AI thinking
+                    await this.simulateThinking();
+                    
+                    // Submit form normally (Django will handle)
+                    // This will cause page reload with response
+                    e.target.submit();
+                    
                 } catch (error) {
-                    console.error('Error:', error);
+                    console.error('Submit error:', error);
                     this.showNotification('Error sending message', 'error');
-                } finally {
                     this.isSubmitting = false;
                     submitBtn.innerHTML = originalHTML;
+                    submitBtn.disabled = false;
                     this.removeTyping();
                 }
             }
 
-            async processResponse(html, userMessage) {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                
-                const chatArea = document.getElementById('chatArea');
-                const botResponses = doc.querySelectorAll('.terminal-message .prompt-output');
-                const lastResponse = botResponses[botResponses.length - 1];
-                
-                if (!chatArea) return;
-                
-                this.removeTyping();
-                
-                // Add user message
-                const userDiv = document.createElement('div');
-                userDiv.className = 'terminal-message';
-                userDiv.innerHTML = `
-                    <div class="prompt-line">
-                        <span class="prompt-symbol prompt-user">></span>
-                        <div class="prompt-text">${this.escapeHtml(userMessage)}</div>
-                    </div>
-                `;
-                chatArea.appendChild(userDiv);
-                
-                // Add bot response
-                if (lastResponse) {
-                    const botDiv = document.createElement('div');
-                    botDiv.className = 'terminal-message';
-                    botDiv.innerHTML = `
-                        <div class="prompt-line">
-                            <span class="prompt-symbol prompt-bot">$</span>
-                            <div class="prompt-text">RESPONSE</div>
-                        </div>
-                        <div class="prompt-output message-content">
-                            ${lastResponse.innerHTML}
-                        </div>
-                    `;
-                    chatArea.appendChild(botDiv);
+            async simulateThinking() {
+                // Update response time with random value
+                const times = ['120ms', '180ms', '240ms', '300ms'];
+                const responseTimeEl = document.getElementById('responseTime');
+                if (responseTimeEl) {
+                    responseTimeEl.textContent = times[Math.floor(Math.random() * times.length)];
                 }
                 
-                this.updateMessageCount();
-                this.scrollToBottom();
+                // Simulate processing delay
+                await new Promise(resolve => setTimeout(resolve, 800));
             }
 
             startTimers() {
+                // Update time immediately
                 this.updateTime();
+                
+                // Update time every second
                 setInterval(() => this.updateTime(), 1000);
                 
+                // Update response time occasionally
                 setInterval(() => {
                     const times = ['12ms', '24ms', '36ms', '48ms'];
                     const time = document.getElementById('responseTime');
-                    if (time) time.textContent = times[Math.floor(Math.random() * times.length)];
+                    if (time && !this.isSubmitting) {
+                        time.textContent = times[Math.floor(Math.random() * times.length)];
+                    }
                 }, 5000);
             }
 
@@ -1233,7 +1216,9 @@
 
             updateMessageCount() {
                 const messages = document.querySelectorAll('.terminal-message');
+                // Subtract 2 for system messages (welcome and boot)
                 const count = Math.max(0, messages.length - 2);
+                this.messageCount = count;
                 
                 const countElement = document.getElementById('messageCount');
                 if (countElement) {
@@ -1245,6 +1230,7 @@
                 const chatArea = document.getElementById('chatArea');
                 if (!chatArea) return;
                 
+                // Remove existing typing indicator
                 this.removeTyping();
                 
                 const typingDiv = document.createElement('div');
@@ -1267,12 +1253,15 @@
                 chatArea.appendChild(typingDiv);
                 this.scrollToBottom();
                 
+                // Auto-remove after 10 seconds (safety)
                 setTimeout(() => this.removeTyping(), 10000);
             }
 
             removeTyping() {
                 const indicator = document.getElementById('typingIndicator');
-                if (indicator) indicator.remove();
+                if (indicator) {
+                    indicator.remove();
+                }
             }
 
             scrollToBottom() {
@@ -1284,6 +1273,27 @@
                 }
             }
 
+            addMessageToChat(content, type) {
+                const chatArea = document.getElementById('chatArea');
+                if (!chatArea) return;
+                
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'terminal-message';
+                
+                if (type === 'user') {
+                    messageDiv.innerHTML = `
+                        <div class="prompt-line">
+                            <span class="prompt-symbol prompt-user">></span>
+                            <div class="prompt-text">${this.escapeHtml(content)}</div>
+                        </div>
+                    `;
+                }
+                
+                chatArea.appendChild(messageDiv);
+                this.updateMessageCount();
+                this.scrollToBottom();
+            }
+
             escapeHtml(text) {
                 const div = document.createElement('div');
                 div.textContent = text;
@@ -1291,99 +1301,121 @@
             }
 
             showNotification(message, type = 'info') {
+                // Remove existing notifications
                 const existing = document.querySelector('.mobile-notification');
                 if (existing) existing.remove();
                 
+                // Create new notification
                 const notification = document.createElement('div');
                 notification.className = 'mobile-notification';
                 notification.textContent = message;
                 
+                // Style based on type
                 if (type === 'error') {
                     notification.style.borderColor = 'var(--cyber-red)';
                     notification.style.color = 'var(--cyber-red)';
+                } else if (type === 'success') {
+                    notification.style.borderColor = 'var(--cyber-green)';
+                    notification.style.color = 'var(--cyber-green)';
                 }
                 
                 document.body.appendChild(notification);
                 
+                // Auto-remove after 2 seconds
                 setTimeout(() => {
                     notification.style.opacity = '0';
                     notification.style.transform = 'translateY(-20px)';
                     setTimeout(() => notification.remove(), 300);
                 }, 2000);
             }
+        }
 
-            // Public methods
-            insertCommand(cmd) {
-                const textarea = document.getElementById('userInput');
-                if (textarea) {
-                    textarea.value = cmd;
-                    textarea.focus();
-                    textarea.dispatchEvent(new Event('input'));
-                }
+        // Global functions for onclick handlers
+        function insertCommand(cmd) {
+            const textarea = document.getElementById('userInput');
+            if (textarea) {
+                textarea.value = cmd;
+                textarea.focus();
+                textarea.dispatchEvent(new Event('input'));
             }
+        }
 
-            clearConsole() {
-                const textarea = document.getElementById('userInput');
-                if (textarea) {
-                    textarea.value = '';
-                    textarea.style.height = 'auto';
-                }
+        function clearConsole() {
+            const textarea = document.getElementById('userInput');
+            if (textarea) {
+                textarea.value = '';
+                textarea.style.height = 'auto';
+                textarea.focus();
             }
+        }
 
-            clearChat() {
-                if (confirm('Clear all chat messages?')) {
-                    const chatArea = document.getElementById('chatArea');
-                    if (chatArea) {
-                        const messages = chatArea.querySelectorAll('.terminal-message');
-                        messages.forEach((msg, index) => {
-                            if (index > 1) msg.remove();
-                        });
-                        this.updateMessageCount();
-                        this.showNotification('Chat cleared');
-                    }
-                }
-            }
-
-            exportChat() {
-                try {
-                    const messages = document.querySelectorAll('.prompt-text, .prompt-output');
-                    let text = '=== CYBERGUARDAI CHAT ===\n';
-                    text += `Export: ${new Date().toLocaleString()}\n\n`;
-                    
-                    messages.forEach(msg => {
-                        const content = msg.textContent.trim();
-                        if (content && !content.includes('SYSTEM') && !content.includes('Welcome')) {
-                            const prefix = msg.closest('.prompt-user') ? '[USER]' : '[AI]';
-                            text += `${prefix}\n${content}\n\n`;
-                        }
+        function clearChat() {
+            if (confirm('Clear all chat messages?')) {
+                const chatArea = document.getElementById('chatArea');
+                if (chatArea) {
+                    const messages = chatArea.querySelectorAll('.terminal-message');
+                    messages.forEach((msg, index) => {
+                        // Keep first 2 messages (system boot and welcome)
+                        if (index > 1) msg.remove();
                     });
                     
-                    const blob = new Blob([text], { type: 'text/plain' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `chat-${new Date().toISOString().slice(0,10)}.txt`;
-                    a.click();
-                    URL.revokeObjectURL(url);
+                    // Update message count
+                    const countElement = document.getElementById('messageCount');
+                    if (countElement) {
+                        countElement.textContent = '0';
+                    }
                     
-                    this.showNotification('Chat exported');
-                    
-                } catch (e) {
-                    this.showNotification('Export failed', 'error');
+                    // Show notification
+                    if (window.app) {
+                        window.app.showNotification('Chat cleared');
+                    }
                 }
             }
         }
 
-        // Initialize app
-        let app;
+        function exportChat() {
+            try {
+                const messages = document.querySelectorAll('.terminal-message');
+                let text = '=== CYBERGUARDAI CHAT EXPORT ===\n';
+                text += `Date: ${new Date().toLocaleString()}\n`;
+                text += `Theme: ${window.app ? window.app.currentTheme : 'cyber'}\n`;
+                text += '='.repeat(35) + '\n\n';
+                
+                messages.forEach((msg, index) => {
+                    const content = msg.textContent.trim();
+                    if (content) {
+                        const isUser = msg.querySelector('.prompt-user');
+                        const isBot = msg.querySelector('.prompt-bot');
+                        const prefix = isUser ? '[USER]' : (isBot ? '[AI]' : '[SYSTEM]');
+                        text += `${prefix}\n${content}\n\n`;
+                    }
+                });
+                
+                const blob = new Blob([text], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `cyberguard-chat-${new Date().toISOString().slice(0,10)}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                if (window.app) {
+                    window.app.showNotification('Chat exported successfully', 'success');
+                }
+                
+            } catch (e) {
+                console.error('Export error:', e);
+                if (window.app) {
+                    window.app.showNotification('Export failed', 'error');
+                }
+            }
+        }
+
+        // Initialize app when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
-            app = new CyberGuardMobile();
-            
-            // Expose methods
-            window.insertCommand = (cmd) => app.insertCommand(cmd);
-            window.clearConsole = () => app.clearConsole();
-            window.clearChat = () => app.clearChat();
-            window.exportChat = () => app.exportChat();
+            window.app = new CyberGuardMobile();
         });
     </script>
 </body>
