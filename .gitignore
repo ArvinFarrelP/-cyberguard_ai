@@ -1,5 +1,14 @@
-# Python virtual environment
+# Virtual environment
 env/
 venv/
+
+# Environment variables
+.env
+
+# Logs
+*.log
+debug.log
+
+# Python
 __pycache__/
 *.pyc
